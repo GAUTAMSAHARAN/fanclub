@@ -1,0 +1,25 @@
+.sidemenuoption{    
+    height: 48px;
+    width: 48px;   
+    border-radius: 50%;
+    margin: auto;
+    margin-top: 12px;
+    background-color: var(--sdie-menu-secondary);
+    color: var(--side-menu-text-primary);
+    transition: background-color .15s ease-out, color .15s ease-out;
+}
+
+.sidemenuoption:hover{
+    border-radius: 12px;
+    background-color: var(--side-menu-option-highlight);
+    color: var(--side-menu-text-highlight);
+}
+
+.active{
+    margin-top: 15px;
+    margin-bottom: 3px;
+    border: 2px solid white;
+    border-radius: 12px;
+    background-color: var(--side-menu-option-highlight);
+    color: var(--side-menu-text-highlight);
+}
