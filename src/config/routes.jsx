@@ -1,22 +1,35 @@
 import React from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 
-import configureStore from '../store/store';
-
+import Chatroom from '../views/chatroom';
+import Explore from '../views/explore';
+import Home from '../views/home';
 
 const ROUTES = [
-    {path: "/", key: "ROOT", exact: true, component: LogIn },
+    {path: "/", key: "ROOT", exact: true, component: Chatroom },
     {
-        path: "/app",
+        path: "/fanclub",
         key: "APP",
-        component:  <RenderRoutes {...props} />,
+        component: props =>  <RenderRoutes {...props} />,
         routes: [
             {
-                path: "/app",
+                path: "/fanclub/@me",
                 key: "APP_ROOT",
                 exact: true,
                 component: Home,
             },
+            {
+                path: "/fanclub/:id",
+                key: "CHAT_ROOM",
+                exact: true, 
+                component: Chatroom,
+            },
+            {
+                path: "/fanclub/explore",
+                key: "EXPLORE",
+                exact: true,
+                component: Explore,
+            }
         ],
     },
 ];
@@ -44,12 +57,3 @@ export function RenderRoutes({ routes }) {
     );
 }
 
-
-
-// code for login chekc
-// props => {
-//     if (!localStorage.getItem('token')){
-//       return <Redirect to={"/"} />;
-//     }
-//     return <RenderRoutes {...props} />;
-//   },

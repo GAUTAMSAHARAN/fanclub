@@ -1,4 +1,5 @@
 .dark{
+    font-size: 16px;
 
     /* side-menu */
     --side-menu-primary: #202225;
@@ -18,6 +19,7 @@
     --chatroom-members-primary: #2F3136;
     --chatroom-members-text-primary: #dcddde;
 
+    
     /* chatroom-members-card */
     --chatroom-member-card-hover: rgba(79,84,92,0.16);
     --chatroom-member-card-text-hover: #dcddde;

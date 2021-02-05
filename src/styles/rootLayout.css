@@ -20,5 +20,5 @@
 .layout-chatbox{
     height: 100vh;
     width: calc(100vw - 72px);
-    background-color: green;
+    background-color: var(--chatroom-navbar-primary);
 }

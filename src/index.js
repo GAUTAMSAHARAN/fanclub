@@ -5,15 +5,19 @@ import configureStore from './store/store';
 import { BrowserRouter } from "react-router-dom";
 import reportWebVitals from './reportWebVitals';
 import 'semantic-ui-css/semantic.min.css'
+import Layout from './views/rootLayout';
+import './styles/colors.css';
+
+const store = configureStore();
 
 ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>
       <React.StrictMode>
-]      <App />
-  </React.StrictMode>
-  </BrowserRouter>
-    </Provider >,
+              <Layout />
+      </React.StrictMode>
+    </BrowserRouter>
+  </Provider >,
   document.getElementById('root')
 );
 

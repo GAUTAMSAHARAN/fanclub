@@ -1,17 +1,17 @@
 import React from 'react';
-import '../../styles/sidemenu/sidemenu.css';
-import SideMenuOption from './sidemenuoption';
+import '../styles/sidemenu/sidemenu.css';
+import SideMenuOption from '../components/sidemenu/sidemenuOption';
 
 const SideMenu = () => {
     return(
         <React.Fragment>
             <div className="sidemenu">
                 <div className="sidemenu-home">
-                    <SideMenuOption />
+                    <SideMenuOption title="Home" />
                 </div>
                 <div className="line"></div>
                 <div className="sidemenu-chatrooms">
-                <SideMenuOption />
+                <SideMenuOption title="chatroom" />
                 </div>
                 <div className="line"></div>
                 <div className="sidemenu-setting">
