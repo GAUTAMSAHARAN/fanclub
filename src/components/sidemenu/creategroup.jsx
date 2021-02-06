@@ -1,28 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import "../../styles/sidemenu/sidemenuOption.css";
 import { useDispatch, useSelector } from 'react-redux';
-import { setActiveElement } from '../../actions/sidemenuAction';
 import { Popup } from 'semantic-ui-react'
 
-const SideMenuOption = (props) => {
+const CreateGroup = (props) => {
     const active = useSelector(state => state.sidemenuReducer.id)
     const dispatch = useDispatch();
-
-
-    const setActiveMe = () => {
-        dispatch(
-            setActiveElement(props.title)
-        )
-    }
 
     return (
         <React.Fragment>
             <Popup
                 trigger={
                     <div
-                        onClick={() => setActiveMe()}
-                        className={active == props.title ? 'sidemenuoption active' : 'sidemenuoption'}
+                        className={active == props.title ? 'extra extra-active' : 'extra'}
                     >
+                        <i class="fas fa-plus extra-plus"></i>
                     </div>
                 }
                 position='right center'
@@ -36,4 +28,4 @@ const SideMenuOption = (props) => {
     )
 }
 
-export default SideMenuOption;
+export default CreateGroup;

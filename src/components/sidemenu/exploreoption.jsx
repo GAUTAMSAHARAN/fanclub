@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setActiveElement } from '../../actions/sidemenuAction';
 import { Popup } from 'semantic-ui-react'
 
-const SideMenuOption = (props) => {
+const ExploreOption = (props) => {
     const active = useSelector(state => state.sidemenuReducer.id)
     const dispatch = useDispatch();
 
@@ -21,8 +21,9 @@ const SideMenuOption = (props) => {
                 trigger={
                     <div
                         onClick={() => setActiveMe()}
-                        className={active == props.title ? 'sidemenuoption active' : 'sidemenuoption'}
+                        className={active == props.title ? 'extra extra-active' : 'extra'}
                     >
+                        <i class="fas fa-compass extra-compass"></i>
                     </div>
                 }
                 position='right center'
@@ -36,4 +37,4 @@ const SideMenuOption = (props) => {
     )
 }
 
-export default SideMenuOption;
+export default ExploreOption;

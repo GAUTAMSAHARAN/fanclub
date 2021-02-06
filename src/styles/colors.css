@@ -24,4 +24,11 @@
     --chatroom-member-card-hover: rgba(79,84,92,0.16);
     --chatroom-member-card-text-hover: #dcddde;
     --chatroom-member-card-text: #8e9297;
+
+    /*sidemenu popups */
+    --sidemenu-popups-primary: black;
+    --sidemenu-popups-text: #dcddde;
+
+    /*sidemenu highlight options */
+    --sidemenu-extra-text: #43b581;
 }
