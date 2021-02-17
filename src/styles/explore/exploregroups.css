@@ -33,6 +33,17 @@
     font-size: 20px;    
     font-family: 'Roboto', sans-serif;
     font-weight: 500;
+    margin-bottom: 20px;
+}
+
+.group-search-input{
+    width: 100%;
+    height: fit-content;
+}
+
+.group-find{
+    width: 100% !important;
+    border-radius: 5px !important;
 }
 
 .explore-cover-image{
@@ -56,7 +67,7 @@
 
 .explore-group-card{
     height: 320px !important;
-    max-width: 282px !important;
+    flex-grow: 3;
     min-width: 270px !important;
     background-color: #202225 !important;
     border: none !important;

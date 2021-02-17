@@ -19,7 +19,7 @@ const ExploreMenu = () => {
                         active={activeItem === 'Home'}
                         onClick={() => handleItemClick('Home')}
                     >
-                        <Icon name='compass' />
+                        <Icon className='explore-menu-icon' name='compass' />
                         <span className="exploremenu-option">Home</span>
                     </Menu.Item>
                     <Menu.Item
@@ -27,7 +27,7 @@ const ExploreMenu = () => {
                         active={activeItem === 'Movies'}
                         onClick={() => handleItemClick('Movies')}
                     >
-                        <Icon name='video' />
+                        <Icon className='explore-menu-icon' name='video' />
                         <span className="exploremenu-option">Movies</span>
                     </Menu.Item>
                     <Menu.Item
@@ -35,7 +35,7 @@ const ExploreMenu = () => {
                         active={activeItem === 'Coding'}
                         onClick={() => handleItemClick('Coding')}
                     >
-                        <Icon name='keyboard' />
+                        <Icon className='explore-menu-icon' name='keyboard' />
                         <span className="exploremenu-option">Coding</span>
                     </Menu.Item>
                     <Menu.Item
@@ -43,7 +43,7 @@ const ExploreMenu = () => {
                         active={activeItem === 'Study'}
                         onClick={() => handleItemClick('Study')}
                     >
-                        <Icon name='pencil alternate' />
+                        <Icon className='explore-menu-icon' name='pencil alternate' />
                         <span className="exploremenu-option">Study</span>
                     </Menu.Item>
                 </Menu>

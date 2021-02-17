@@ -19,6 +19,20 @@
     justify-content: center;
 }
 
+.msg-textarea-input{
+    width: 100% !important;
+    height: ;
+    background-color: transparent !important;
+    border: none !important;
+    color: var(--msg-input-text-primary) !important;
+    font-size: 20px !important;
+    box-shadow: none !important;
+}
+
+.msg-textarea-input:focus{
+    outline: 0 !important;
+}
+
 .msg-media-input{
     height: 100%;
     width: 56px;

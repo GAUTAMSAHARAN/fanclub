@@ -3,6 +3,7 @@ import "../../styles/explore/exploregroups.css";
 import ExploreCover from '../../images/explore_cover_image.svg';
 import GroupCard from './exploregroupcard';
 import { Card } from 'semantic-ui-react'
+import { Input } from 'semantic-ui-react'
 
 const ExploreGroups = () => {
     return (
@@ -12,6 +13,7 @@ const ExploreGroups = () => {
                 <div className="group-searchbar">
                     <div className="group-search-heading-primary">Find your place on Discord</div>
                     <div className="group-search-heading-secondary">From Movies, to Coding, to Study, there's a place for you.</div>
+                    <div className="group-search-input"><Input icon='search' className='group-find' placeholder='Search...' /></div>
                 </div>
             </div>
             <div className="explore-heading">

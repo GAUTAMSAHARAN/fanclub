@@ -16,7 +16,7 @@ export default function Layout(props) {
                 </div>
                 <div className="layout-chatbox">
                     {/* <RenderRoutes routes={ROUTES} />                */}
-                    <Explore />
+                    <Chatroom />
                 </div>
             </Container>
         </React.Fragment>

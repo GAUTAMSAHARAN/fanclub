@@ -20,4 +20,5 @@
     overflow-y: scroll;
     scrollbar-color: black #2F3136;
     border-bottom: 1px solid #7289DA;
+    padding-top: 20px;
 }

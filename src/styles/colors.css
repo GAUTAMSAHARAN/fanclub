@@ -47,4 +47,14 @@
     --chatroom-chatbox-primary: #36393F;
     --chatroom-chatbox-secondary: #2F3136;
     --chatroom-navbar-primary: #36393F;
+
+    /* msg-input */
+    --msg-input-text-primary: #dcddde;
+
+    /* primary-msg */
+    --primary-msg-hover-background: #32353B;
+    --primary-userinfo-text: #FFFFFF;
+    --priamry-date: #71757C;
+    --primary-main-msg: #DCDDDE;
+
 }
