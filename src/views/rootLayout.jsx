@@ -6,6 +6,7 @@ import SideMenu from "./sidemenu";
 import ROUTES, { RenderRoutes } from "../config/routes";
 import Explore from './explore';
 import Chatroom from './chatroom';
+import Home from './home';
 
 export default function Layout(props) {
     return (
@@ -16,7 +17,7 @@ export default function Layout(props) {
                 </div>
                 <div className="layout-chatbox">
                     {/* <RenderRoutes routes={ROUTES} />                */}
-                    <Chatroom />
+                    <Explore />
                 </div>
             </Container>
         </React.Fragment>

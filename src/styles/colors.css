@@ -57,4 +57,10 @@
     --priamry-date: #71757C;
     --primary-main-msg: #DCDDDE;
 
+    /* home */
+    --home-private-channels-primary: #2f3136;
+    --home-private-channels-input-primary: #202225;
+    --home-navbar-active-primary: #3E4248;
+    --home-private-channels-heading: #8e9297;
+
 }

@@ -1,0 +1,12 @@
+.searchInput {
+    background-color: var( --home-private-channels-input-primary) ;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    height: 28px;
+    border-radius: 5px;
+    padding-left: 5px;
+}
+.privateChannels {
+    background-color: var(--home-private-channels-primary);
+    
+}

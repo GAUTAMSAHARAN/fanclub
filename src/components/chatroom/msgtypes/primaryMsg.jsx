@@ -3,6 +3,8 @@ import '../../../styles/chatroom/msgtypes/primaryMsg.css';
 import { makeStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
 import { deepOrange, deepPurple } from '@material-ui/core/colors';
+import { Popup } from 'semantic-ui-react'
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -29,7 +31,7 @@ const PrimaryMsg = () => {
             <div className="primary-msg-container">
                 <div className="primary-msg-avatar">
                     <div className={classes.root}>
-                        <Avatar>H</Avatar>
+                        <Avatar>s</Avatar>
                     </div>
                 </div>
                 <div className="primary-msg-content">
@@ -40,6 +42,16 @@ const PrimaryMsg = () => {
                     <div className="primary-main-msg">
                         5
                 </div>
+                </div>
+                <div className="msg-options">
+                    <Popup
+                        trigger={<i class="fas fa-ellipsis-h msg-options-icon "></i>}
+                        content='I am positioned to the left center'
+                        position='left bottom'
+                        inverted
+                        on = "click"
+                    />
+
                 </div>
             </div>
         </>
