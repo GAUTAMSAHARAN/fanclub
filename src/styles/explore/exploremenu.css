@@ -1,0 +1,39 @@
+.exploremenu{
+    height: inherit;
+    width: inherit;
+    background-color: var(--exploremenu-primary);
+    padding: 22px 15px 0px 15px;
+}
+
+.exploremenu-heading{
+    color: var(--exploremenu-heading);
+    font-size: 26px;
+    font-family: 'Hammersmith One', sans-serif;
+}
+
+.item{
+    color: var(--exploremenu-text-primary) !important;
+    font-size: 16px !important;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+}
+
+.icon{
+    width: 10% !important;
+    height: 100% !important;
+    font-size: 20px !important;
+    margin-left: 0 !important;
+}
+
+.exploremenu-option{
+    width: 90% !important;  
+    height: 100% !important;
+    padding-left: 10%;
+}
+
+
+.active{
+    color: var(--exploremenu-active-element-text) !important;
+    background-color: var(--exploremenu-active-element-primary) !important;
+}

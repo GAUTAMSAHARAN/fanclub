@@ -4,6 +4,7 @@ import SideMenuOption from '../components/sidemenu/sidemenuOption';
 import { Popup } from 'semantic-ui-react'
 import CreateGroup from '../components/sidemenu/creategroup';
 import ExploreOption from '../components/sidemenu/exploreoption';
+import Settings from '../components/sidemenu/setting';
 
 const SideMenu = () => {
     return (
@@ -20,7 +21,7 @@ const SideMenu = () => {
                 </div>
                 <div className="line"></div>
                 <div className="sidemenu-setting">
-                    <i class="fas fa-cog"></i>
+                    <Settings />
                 </div>
             </div>
         </React.Fragment>

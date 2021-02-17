@@ -1,0 +1,13 @@
+.members-box{
+    height: 100%;
+    width: 100%;
+    padding: 10px 10px 0 10px;
+}
+
+.MuiListItem-button:hover{
+    background-color: var(--chatroom-members-secondary) !important;
+}
+
+.MuiListItemIcon-root{
+    min-width: 40px !important;    
+}

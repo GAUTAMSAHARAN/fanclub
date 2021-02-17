@@ -1,5 +1,4 @@
 .dark{
-    font-size: 16px;
 
     /* side-menu */
     --side-menu-primary: #202225;
@@ -18,6 +17,7 @@
     /* chatroom-members-list */
     --chatroom-members-primary: #2F3136;
     --chatroom-members-text-primary: #dcddde;
+    --chatroom-members-secondary: #33363C;
 
     
     /* chatroom-members-card */
@@ -31,4 +31,20 @@
 
     /*sidemenu highlight options */
     --sidemenu-extra-text: #43b581;
+
+    /* explore sidemenu */
+    --exploremenu-primary: #2F3136;
+    --exploremenu-text-primary: #DCDDDE;
+    --exploremenu-active-element-primary: #7289DA;
+    --exploremenu-active-element-text: #FFFFFF;
+    --exploremenu-heading: #FFFFFF;
+
+
+    /*chatroom */
+    --chatroom-media-primary: #2F3136;
+    --chatroom-media-text-primary: #909295;
+    --chatroom-media-secondary: #dcddde;
+    --chatroom-chatbox-primary: #36393F;
+    --chatroom-chatbox-secondary: #2F3136;
+    --chatroom-navbar-primary: #36393F;
 }

@@ -21,7 +21,7 @@ const SideMenuOption = (props) => {
                 trigger={
                     <div
                         onClick={() => setActiveMe()}
-                        className={active == props.title ? 'sidemenuoption active' : 'sidemenuoption'}
+                        className={active == props.title ? 'sidemenuoption option-active' : 'sidemenuoption'}
                     >
                     </div>
                 }

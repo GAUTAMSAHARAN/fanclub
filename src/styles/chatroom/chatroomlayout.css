@@ -1,0 +1,40 @@
+.chatroom-layout{
+    display: flex;
+    flex-direction: row;
+}
+
+.chatroom-media{
+    width: 238px;
+    height: 100vh;
+    background-color: var(--chatroom-media-primary);
+}
+
+.chatroom-chatbox{
+    width: calc(100% - 238px);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.chatroom-navbar{
+    width: 100%;
+    height: 48px;
+}
+
+.chatroom-main{
+    width: 100%;
+    height: calc(100% - 48px);
+    display: flex;
+    flex-direction: row;
+}
+
+.outer-members{
+    height: 100%;
+    width: var(--members-list-width);
+    background-color: var(--chatroom-members-primary);
+}
+
+.outer-chatbox{
+    height: 100%;
+    width: calc(100% - var(--members-list-width));
+}
