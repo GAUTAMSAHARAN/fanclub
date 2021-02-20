@@ -16,8 +16,7 @@ export default function Layout(props) {
                     <SideMenu />
                 </div>
                 <div className="layout-chatbox">
-                    {/* <RenderRoutes routes={ROUTES} />                */}
-                    <Explore />
+                    <RenderRoutes routes={ROUTES} />               
                 </div>
             </Container>
         </React.Fragment>

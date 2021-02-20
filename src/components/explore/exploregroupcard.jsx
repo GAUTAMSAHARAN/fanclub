@@ -13,7 +13,7 @@ const GroupCard = () => {
                         <span className='group-card-desc' >Matthew is a musician living in Nashville.</span>
                     </Card.Description>
                 </Card.Content>
-                <Card.Content extra>
+                <Card.Content extra className='explore-group-card-extra' >
                 <i class="fas fa-user"></i>
                 22 members
                 </Card.Content>

@@ -1,0 +1,5 @@
+export const GET_GROUPS = "GET_GROUPS";
+
+export const GET_GROUPS_PENDING = "GET_GROUPS_PENDING";
+
+export const GET_GROUPS_ERROR = "GET_GROUPS_ERROR";

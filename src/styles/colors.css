@@ -58,9 +58,10 @@
     --primary-main-msg: #DCDDDE;
 
     /* home */
-    --home-private-channels-primary: #2f3136;
-    --home-private-channels-input-primary: #202225;
-    --home-navbar-active-primary: #3E4248;
-    --home-private-channels-heading: #8e9297;
-
+    --profile-primary: #18191C;
+    --profile-option-1: #7289DA;
+    --profile-option-2: #FAA61A;
+    --profile-option-3: #F04747;
+    --profile-option-4: #747F8D;
+    --profile-option-5: #43B581;
 }

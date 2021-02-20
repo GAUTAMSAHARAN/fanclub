@@ -3,23 +3,18 @@ import { Route, Switch, Redirect } from "react-router-dom";
 
 import Chatroom from '../views/chatroom';
 import Explore from '../views/explore';
-import Home from '../views/home';
 
 const ROUTES = [
-    {path: "/", key: "ROOT", exact: true, component: Chatroom },
+    {path: "/", key: "ROOT", exact: true, component: Explore },
     {
         path: "/fanclub",
         key: "APP",
-        component: props =>  <RenderRoutes {...props} />,
+        component: props => {
+        return  <RenderRoutes {...props} />
+    },
         routes: [
             {
-                path: "/fanclub/@me",
-                key: "APP_ROOT",
-                exact: true,
-                component: Home,
-            },
-            {
-                path: "/fanclub/:id",
+                path: "/fanclub/id",
                 key: "CHAT_ROOM",
                 exact: true, 
                 component: Chatroom,

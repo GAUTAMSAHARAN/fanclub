@@ -1,12 +1,20 @@
 import React, { useState } from 'react';
 import "../../styles/explore/exploremenu.css";
 import { Menu, Icon } from 'semantic-ui-react'
+import { useDispatch, useSelector } from 'react-redux';
+import {getGroups} from '../../actions/exploreAction';
+
 
 const ExploreMenu = () => {
     const [activeItem, setActiveItem] = useState('Home')
 
+    const dispatch = useDispatch();
+
     const handleItemClick = (option) => {
         setActiveItem(option)
+        dispatch(
+            getGroups(option)
+        )
     }
 
     return (
