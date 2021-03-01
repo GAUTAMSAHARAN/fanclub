@@ -11,3 +11,25 @@
 .MuiListItemIcon-root{
     min-width: 40px !important;    
 }
+
+.group-members-options{
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+}
+
+.member-options{
+    border-radius: 0 !important;
+    margin-bottom: 10px !important;
+    width: 150px !important;
+}
+
+.remove-member{
+    background-color: #F04747 !important;
+}
+
+.create-admin{
+    background-color: #4BB543 !important;
+    margin-bottom: 5px !important;
+}

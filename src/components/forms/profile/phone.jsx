@@ -38,7 +38,7 @@ function NumberFormatCustom(props) {
 
 const Phone = (props) => {
 
-    const [id, setId] = useState(props.id)
+    const [id, setId] = useState(props.user_id)
     const currentUserId = useSelector(state => state.userReducer._id)
     const dispatch = useDispatch();
     const phone = useSelector(state => state.userReducer.user["phone"])

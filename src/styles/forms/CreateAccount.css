@@ -1,0 +1,10 @@
+.username-input-field{
+    width: 100%;
+    margin-bottom: 10px !important;
+}
+
+.password-input-field{
+    width: 100%;
+    margin-top: 10px !important;
+    margin-bottom: 20px !important;
+}

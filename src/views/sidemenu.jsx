@@ -2,18 +2,20 @@ import React from 'react';
 import '../styles/sidemenu/sidemenu.css';
 import SideMenuOption from '../components/sidemenu/sidemenuOption';
 import { Popup } from 'semantic-ui-react'
-import CreateGroup from '../components/sidemenu/creategroup';
 import ExploreOption from '../components/sidemenu/exploreoption';
 import Settings from '../components/sidemenu/setting';
 import { Link } from "react-router-dom";
 import Home from './home';
+import { useSelector } from 'react-redux';
+import GroupForm from '../components/forms/group';
 
 const SideMenu = () => {
+    const user = useSelector(state => state.userReducer.user)
     return (
         <React.Fragment>
             <div className="sidemenu">
                 <div className="sidemenu-home">
-                    <Home />
+                    <Home user={user} />
                 </div>
                 <div className="line"></div>
                 <div className="sidemenu-chatrooms">
@@ -22,7 +24,9 @@ const SideMenu = () => {
                     }}>
                         <SideMenuOption title="chatroom" />
                     </Link>
-                    <CreateGroup title="Create a new group" />
+
+                    <GroupForm />
+
                     <Link to={{
                         pathname: `/fanclub/explore`,
                     }}>

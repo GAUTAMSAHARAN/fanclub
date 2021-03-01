@@ -68,9 +68,20 @@
 
 .msg-options-icon{
     font-size: 18px;
+    margin-right: 15px;
     color: #dcddde;
 }
 
 .msg-options-icon:hover{
     cursor: pointer;
+    transform: scale(1.1);
+}
+
+
+.edit-msg-icon{
+    color: lightgreen;
+}
+
+.delete-msg-icon{
+    color: red;
 }

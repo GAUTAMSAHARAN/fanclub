@@ -1,0 +1,48 @@
+.profile-basic{
+    width: 100%;
+    height: fit-content;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profile-username{
+    font-family: 'Fredoka One', cursive;
+    color: white;
+    margin-bottom: 20px;
+    font-size: 20px;
+}
+
+
+.form-top{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.group-form-options{
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+}
+
+.group-profile-image{
+    margin-left: 20px;
+    width: 40%;
+    height: 180px;
+    background-color: burlywood;
+}
+
+.group-form-textarea{
+    background-color: transparent !important;
+    outline: 0 !important;
+    border: 1px solid rgba(0, 0, 0, 0.27);
+    padding: 10px !important;
+    margin-bottom: 20px;
+}
+
+.group-create-button{
+    background-color: #747F8D !important;
+}

@@ -7,6 +7,7 @@ import { Input } from 'semantic-ui-react'
 import { useDispatch, useSelector } from 'react-redux';
 import Loading from '../loading';
 import {getGroups} from '../../actions/exploreAction';
+import NoMoreGroups from './end';
 
 const ExploreGroups = () => {
     const groups = useSelector(state => state.exploreReducer.groups)
@@ -28,8 +29,8 @@ const ExploreGroups = () => {
                     <GroupCard />
                 )
             }else{
-                
-            }
+                list = <NoMoreGroups />
+            }   
         }else{
             list = <Loading />
         }
@@ -55,6 +56,7 @@ const ExploreGroups = () => {
             <div className="explore-groups">
                 <Card.Group itemsPerRow={5}>
                     {groupList()}
+                    {groups.length > 0 ? <NoMoreGroups /> : ''}
                 </Card.Group>
             </div>
         </>

@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { changeUsername } from '../../../actions/userAction';
 
 const UsernameForm = (props) => {
-    const [id, setId] = useState(props.id)
+    const [id, setId] = useState(props.user_id)
     const currentUserId = useSelector(state => state.userReducer._id)
     const dispatch = useDispatch();
     const username = useSelector(state => state.userReducer.user["username"])

@@ -7,7 +7,7 @@ import { changeBio } from '../../../actions/userAction';
 
 const BioForm = (props) => {
 
-    const [id, setId] = useState(props.id)
+    const [id, setId] = useState(props.user_id)
     const currentUserId = useSelector(state => state.userReducer._id)
     const dispatch = useDispatch();
     const bio = useSelector(state => state.userReducer.user["bio"])

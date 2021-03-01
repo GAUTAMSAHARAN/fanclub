@@ -73,6 +73,7 @@
     border: none !important;
     border-radius: 5px !important;
     box-shadow: none !important;
+    position: relative !important;
 }
 
 .explore-group-card-image{
@@ -109,4 +110,18 @@
 
 .explore-group-card-extra{
     font-size: 13px !important;
+}
+
+.group-card-join-button{
+    position: absolute;
+    right: 20px;
+    top: 20px;
+}
+
+.join-button{
+    background-color: #7289DA !important;
+}
+
+.join-button:hover{
+    transform: scale(1.1) !important;
 }

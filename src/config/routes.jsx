@@ -3,9 +3,10 @@ import { Route, Switch, Redirect } from "react-router-dom";
 
 import Chatroom from '../views/chatroom';
 import Explore from '../views/explore';
+import Registration from '../views/registration';
 
 const ROUTES = [
-    {path: "/", key: "ROOT", exact: true, component: Explore },
+    {path: "/", key: "ROOT", exact: true, component: Registration },
     {
         path: "/fanclub",
         key: "APP",

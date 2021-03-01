@@ -9,7 +9,9 @@ import Collapse from '@material-ui/core/Collapse';
 import FaceIcon from '@material-ui/icons/Face';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
-import { Icon, Popup, Grid } from 'semantic-ui-react'
+import { Popup } from 'semantic-ui-react'
+import { Button } from 'semantic-ui-react'
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -57,7 +59,13 @@ const Members = () => {
                                     </ListItemIcon>
                                     <ListItemText primary={<Typography style={{ color: '#DCDDDE', fontFamily: 'Mukta, sans-serif' }}>KK_BHAI</Typography>} />
                                 </ListItem>}
-                                content='I am positioned to the left center'
+                                content={
+                                    <div className="group-members-options">
+                                        <Button className="member-options" content='Profile' primary />
+                                        <Button className="member-options remove-member" content='Remove'  />
+                                        <Button className="member-options create-admin" content='Admin'  />
+                                    </div>
+                                }
                                 position='left center'
                                 inverted
                                 on='click'

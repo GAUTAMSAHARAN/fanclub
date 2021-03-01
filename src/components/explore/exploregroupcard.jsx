@@ -1,5 +1,6 @@
 import React from 'react';
 import { Card, Icon, Image } from 'semantic-ui-react'
+import Button from '@material-ui/core/Button';
 
 const GroupCard = () => {
     return (
@@ -14,9 +15,14 @@ const GroupCard = () => {
                     </Card.Description>
                 </Card.Content>
                 <Card.Content extra className='explore-group-card-extra' >
-                <i class="fas fa-user"></i>
+                    <i class="fas fa-user"></i>
                 22 members
                 </Card.Content>
+                <div className="group-card-join-button">
+                    <Button className="join-button" variant="contained" color="primary" disableElevation>
+                        Join
+                    </Button>
+                </div>
             </Card>
         </>
     )

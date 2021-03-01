@@ -62,7 +62,8 @@ const useStyles = makeStyles((theme) => ({
 const Home = (props) => {
     const classes = useStyles();
 
-    const [id, setId] = useState(props.id)
+    const [id, setId] = useState(props.user.id)
+    const currentUserId = useSelector(state => state.userReducer._id)
 
     // const currentUserId = useSelector(state => state.userReducer._id)
 
@@ -83,16 +84,16 @@ const Home = (props) => {
         <>
             <div>
                 <div onClick={handleClickOpen}>
-                <SideMenuOption title="Home" />
+                    <SideMenuOption title="Home" />
                 </div>
                 <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
                     <DialogContent dividers>
                         <div className="profile-basic">
                             <div className="profile-avatar"></div>
-                            <div className="profile-username">{props.username}</div>
+                            <div className="profile-username">{props.user.username}</div>
                             <div className="profile-bio">
-                            {props.bio}
-                </div>
+                                {props.user.bio}
+                            </div>
                         </div>
                         <div className="profile-primary">
                             <div className={classes.root}>
@@ -132,21 +133,23 @@ const Home = (props) => {
                                     </AccordionSummary>
                                     <AccordionDetails>
                                         <div className={classes.root} >
-                                            <UsernameForm user_id={id} />
+                                            <UsernameForm user_id={props.user.id} />
                                         </div>
                                     </AccordionDetails>
                                 </Accordion>
-                                <Accordion className="option-3">
-                                    <AccordionSummary
-                                        expandIcon={<ExpandMoreIcon />}
-                                        aria-controls="panel2a-content"
-                                        id="panel2a-header"
-                                    >
-                                        <Typography className={classes.heading}><LockIcon className="profile-icons" /> Password</Typography>
-                                    </AccordionSummary>
-                                    <AccordionDetails>
-                                    </AccordionDetails>
-                                </Accordion>
+                                {
+                                    id == currentUserId ? <Accordion className="option-3">
+                                        <AccordionSummary
+                                            expandIcon={<ExpandMoreIcon />}
+                                            aria-controls="panel2a-content"
+                                            id="panel2a-header"
+                                        >
+                                            <Typography className={classes.heading}><LockIcon className="profile-icons" /> Password</Typography>
+                                        </AccordionSummary>
+                                        <AccordionDetails>
+                                        </AccordionDetails>
+                                    </Accordion> : ''
+                                }
                                 <Accordion className="option-4">
                                     <AccordionSummary
                                         expandIcon={<ExpandMoreIcon />}
@@ -157,7 +160,7 @@ const Home = (props) => {
                                     </AccordionSummary>
                                     <AccordionDetails>
                                         <div className={classes.root} >
-                                            <Phone />
+                                            <Phone user_id = {props.user.id} />
                                         </div>
                                     </AccordionDetails>
                                 </Accordion>
@@ -171,7 +174,7 @@ const Home = (props) => {
                                     </AccordionSummary>
                                     <AccordionDetails>
                                         <div className={classes.root} >
-                                            <BioForm />
+                                            <BioForm user_id={props.user.id} />
                                         </div>
                                     </AccordionDetails>
                                 </Accordion>

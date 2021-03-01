@@ -10,6 +10,11 @@ import {
     CHANGE_BIO_PENDING,
     GET_USER,
     GET_USER_PENDING,
+    LOGIN_PENDING,
+    SET_TOKEN,
+    LOGIN_BOOL,
+    LOGGEDINORNOT,
+    SET_ID,
 } from '../actions/userActionType';
 
 const initialPendingState = {
@@ -17,17 +22,22 @@ const initialPendingState = {
     changeUsernamePending: false,
     changePhonePending: false,
     changeBioPending: false,
+    loginPending: false,
 }
 
 const initialState = {
     ...initialPendingState,
-    _id: null,
+    _id: 1,
     user: {
+        "id": "1",
         "username": "MrCommonNoob",
         "phone": "7727021196",
         "bio": "Gamer, Coder, Hacker Currentyl studing in IIT-R fdslfjdflkdjfldsjflasdjdlfjdslfjdafl",
         "gmail": "gsooouuu@gmail.com",
     },
+    token: '',
+    loggedIn: false,
+    logbool: true,
 }
 
 export default function userReducer(
@@ -35,6 +45,12 @@ export default function userReducer(
     { type, payload, error}
 ){
     switch(type){
+        case SET_TOKEN:
+            return {...state, token: payload}
+        case LOGGEDINORNOT:
+            return {...state, loggedIn: payload}
+        case LOGIN_BOOL:
+            return {...state, logbool: payload}
         case CHANGE_USERNAME_PENDING:
             return {...state, changeUsernamePending: payload}
         case CHANGE_BIO_PENDING:
@@ -45,28 +61,28 @@ export default function userReducer(
             return {...state, getUserPending: payload}
         case GET_USER:
             return {...state, user: payload}
+        case SET_ID:
+            return {...state, _id: payload}
+        case LOGIN_PENDING:
+            return {...state, loginPending: payload}
         case PATCH_BIO:
             return update(state, {
                 user: {
                     1: {
-                        bio: payload
+                        bio: {$set: payload}
                     }
                 }
             })
         case PATCH_USERNAME:
             return  update(state, {
                 user: {
-                    1: {
-                        username: payload
-                    }
+                        username: {$set: payload}
                 }
             })
         case PATCH_PHONE:
             return update(state, {
                 user: {
-                    1: {
-                        phone: payload
-                    }
+                        phone: {$set: payload}
                 }
             })
         default:

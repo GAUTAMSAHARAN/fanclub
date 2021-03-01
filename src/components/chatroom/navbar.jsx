@@ -10,6 +10,8 @@ import SearchIcon from '@material-ui/icons/Search';
 import "../../styles/chatroom/chatroomnavbar.css";
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import InboxIcon from '@material-ui/icons/Inbox';
+import AddCircleIcon from '@material-ui/icons/AddCircle';
+import EditIcon from '@material-ui/icons/Edit';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -80,7 +82,7 @@ const ChatNavbar = () => {
           <IconButton
               aria-label="account of current user"
               aria-controls="menu-appbar"
-              aria-haspopup="true"
+              aria-haspopup="true"  
               color="inherit"
             >
               <PeopleAltIcon />
@@ -91,7 +93,15 @@ const ChatNavbar = () => {
               aria-haspopup="true"
               color="inherit"
             >
-              <InboxIcon />
+              <EditIcon />
+            </IconButton>
+            <IconButton
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              color="inherit"
+            >
+              <AddCircleIcon />
             </IconButton>
             <div className={classes.search}>
               <div className={classes.searchIcon}>
