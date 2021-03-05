@@ -1,11 +1,23 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import ChatBox from '../components/chatroom/chatbox';
 import Members from '../components/chatroom/chatmembers';
 import MediaHeader from '../components/chatroom/mediaheader';
 import ChatNavbar from '../components/chatroom/navbar';
 import "../styles/chatroom/chatroomlayout.css";
+import { useDispatch, useSelector } from 'react-redux';
+import {currentGroup} from '../actions/groupAction';
+import WebSocketInstance from '../config/websocket';
 
-const Chatroom = () => {
+const Chatroom = (props) => {
+    const dispatch = useDispatch();
+    const user_id = useSelector(state => state.userReducer._id)
+    const id = props.location.state.group.id
+
+    useEffect(() => {
+        WebSocketInstance.connect(`ws://localhost:8000/ws/chat/${id}/${user_id}`);
+        dispatch(currentGroup(props.location.state.group))
+    }, [])
+
     return (
         <>
         <div className="chatroom-layout">

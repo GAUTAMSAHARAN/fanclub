@@ -11,3 +11,9 @@ export const registration = '/rest-auth/registration/';
 export const googleLogin = "/rest-auth-social/google/";
 export const facebookLogin = "/rest-auth-social/facebook/";
 export const get_user = "/rest-auth/user/";
+
+/* groups */
+export const create_group = '/chatroom/';
+export const get_user_groups = '/chatroom/userGroups/';
+export const join_group = '/chatroom/';
+export const update_group = '/chatroom/';

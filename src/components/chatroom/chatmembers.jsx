@@ -13,7 +13,6 @@ import { Popup } from 'semantic-ui-react'
 import { Button } from 'semantic-ui-react'
 
 
-
 const useStyles = makeStyles((theme) => ({
     root: {
         width: '100%',
@@ -47,7 +46,7 @@ const Members = () => {
                     className={classes.root}
                 >
                     <ListItem button onClick={handleOnlineClick}>
-                        <ListItemText primary={<Typography style={{ color: '#8e9297', fontFamily: 'Mukta, sans-serif' }}>ONLINE-2</Typography>} />
+                        <ListItemText primary={<Typography style={{ color: '#8e9297', fontFamily: 'Mukta, sans-serif' }}>ADMIN-2</Typography>} />
                         {openOnline ? <ExpandLess /> : <ExpandMore />}
                     </ListItem>
                     <Collapse in={openOnline} timeout="auto" unmountOnExit>
@@ -73,7 +72,7 @@ const Members = () => {
                         </List>
                     </Collapse>
                     <ListItem button onClick={handleOfflineClick}>
-                        <ListItemText primary={<Typography style={{ color: '#8e9297', fontFamily: 'Mukta, sans-serif' }}>OFFLINE-0</Typography>} />
+                        <ListItemText primary={<Typography style={{ color: '#8e9297', fontFamily: 'Mukta, sans-serif' }}>MEMBERS-0</Typography>} />
                         {openOffline ? <ExpandLess /> : <ExpandMore />}
                     </ListItem>
                     <Collapse in={openOffline} timeout="auto" unmountOnExit>

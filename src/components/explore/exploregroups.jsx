@@ -7,6 +7,7 @@ import { Input } from 'semantic-ui-react'
 import { useDispatch, useSelector } from 'react-redux';
 import Loading from '../loading';
 import {getGroups} from '../../actions/exploreAction';
+import {getUserGroup} from '../../actions/groupAction';
 import NoMoreGroups from './end';
 
 const ExploreGroups = () => {
@@ -19,14 +20,17 @@ const ExploreGroups = () => {
         dispatch(
             getGroups('Home')
         )
+        dispatch(
+            getUserGroup()
+        )
     },[])
 
     const groupList = () => {
         let list = [];
         if(getGroupPending == false){
             if (groups.length > 0) {
-                list = groups.map((gruop) =>
-                    <GroupCard />
+                list = groups.map((group) =>
+                    <GroupCard group={group} />
                 )
             }else{
                 list = <NoMoreGroups />

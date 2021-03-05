@@ -27,14 +27,8 @@ const initialPendingState = {
 
 const initialState = {
     ...initialPendingState,
-    _id: 1,
-    user: {
-        "id": "1",
-        "username": "MrCommonNoob",
-        "phone": "7727021196",
-        "bio": "Gamer, Coder, Hacker Currentyl studing in IIT-R fdslfjdflkdjfldsjflasdjdlfjdslfjdafl",
-        "gmail": "gsooouuu@gmail.com",
-    },
+    _id: null,
+    user: [],
     token: '',
     loggedIn: false,
     logbool: true,

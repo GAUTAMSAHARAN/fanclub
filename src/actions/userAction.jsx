@@ -26,6 +26,7 @@ import {
     facebookLogin,
     get_user,
 } from '../config/urls';
+import axios from 'axios';
 
 
 const apiDispatch = (actionType = '', data) => {
@@ -114,8 +115,12 @@ export const loginUser = (data) => {
     let url = login;
     return dispatch => {
         dispatch(apiDispatch(LOGIN_PENDING, true));
-        apiClient
-            .post(url, data)
+        axios({
+            method: "post",
+            url: url,
+            data: data,
+            headers: {"Content-type": "application/json; charset=UTF-8"},
+        })
             .then(res => {
                 dispatch(apiDispatch(SET_TOKEN, res.data.key));
                 dispatch(apiDispatch(LOGGEDINORNOT, true));
@@ -137,8 +142,12 @@ export const createUser = (data) => {
     let url = registration;
     return dispatch => {
         dispatch(apiDispatch(CREATE_USER_PENDING, true));
-        apiClient
-            .post(url, data)
+        axios({
+            method: "post",
+            url: url,
+            data: data,
+            headers: {"Content-type": "application/json; charset=UTF-8"},
+        })
             .then(res => {
                 dispatch(apiDispatch(SET_TOKEN, res.data.key));
                 dispatch(apiDispatch(LOGGEDINORNOT, true));
@@ -146,15 +155,20 @@ export const createUser = (data) => {
             .catch(error => {
                 dispatch(apiError(error));
             })
-            dispatch(apiDispatch(CREATE_USER_PENDING, false));
+
+        dispatch(apiDispatch(CREATE_USER_PENDING, false));
     }
 }
 
 export const GoogleLoginFtn = (data) => {
     let url = googleLogin;
     return dispatch => {
-        apiClient
-            .post(url, data)
+        axios({
+            method: "POST",
+            url: url,
+            data: data,
+            headers: {"Content-type": "application/json; charset=UTF-8"},  
+        })
             .then(res => {
                 dispatch(apiDispatch(SET_TOKEN, res.data.key));
                 dispatch(apiDispatch(LOGGEDINORNOT, true));
@@ -168,8 +182,12 @@ export const GoogleLoginFtn = (data) => {
 export const FacebookLoginFtn = (data) => {
     let url = facebookLogin;
     return dispatch => {
-        apiClient
-            .post(url, data)
+        axios({
+            method: "POST",
+            url: url,
+            data: data,
+            headers: {"Content-type": "application/json; charset=UTF-8"},  
+        })
             .then(res => {
                 dispatch(apiDispatch(SET_TOKEN, res.data.key));
                 dispatch(apiDispatch(LOGGEDINORNOT, true));

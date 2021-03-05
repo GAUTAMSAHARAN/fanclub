@@ -11,6 +11,24 @@ import GroupForm from '../components/forms/group';
 
 const SideMenu = () => {
     const user = useSelector(state => state.userReducer.user)
+    const userGruops = useSelector(state => state.groupReducer.currentUserGroups)
+
+    const UserGroupList = () => {
+        let groups = [];
+        groups = userGruops.map((group) =>
+            <Link to={{
+                pathname: `/fanclub/groups/${group.id}`,
+                state: {group: group}
+            }}
+            >
+                <SideMenuOption title={group.name} />
+            </Link>
+        )
+        return (
+            groups
+        )
+    }
+
     return (
         <React.Fragment>
             <div className="sidemenu">
@@ -19,11 +37,8 @@ const SideMenu = () => {
                 </div>
                 <div className="line"></div>
                 <div className="sidemenu-chatrooms">
-                    <Link to={{
-                        pathname: `/fanclub/id`,
-                    }}>
-                        <SideMenuOption title="chatroom" />
-                    </Link>
+
+                    {UserGroupList()}
 
                     <GroupForm />
 

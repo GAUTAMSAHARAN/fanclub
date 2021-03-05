@@ -15,9 +15,8 @@ const ROUTES = [
     },
         routes: [
             {
-                path: "/fanclub/id",
+                path: "/fanclub/groups/:id",
                 key: "CHAT_ROOM",
-                exact: true, 
                 component: Chatroom,
             },
             {

@@ -1,12 +1,9 @@
 import React, { useState } from 'react';
-import '../../styles/creategroup.css';
 import { withStyles } from '@material-ui/core/styles';
 import { makeStyles } from '@material-ui/core/styles';
 import Dialog from '@material-ui/core/Dialog';
 import MuiDialogContent from '@material-ui/core/DialogContent';
-import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
-import CreateGroup from '../sidemenu/creategroup';
 import TextField from '@material-ui/core/TextField';
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -14,20 +11,11 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
-import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Slide from '@material-ui/core/Slide';
-import { Dropdown } from 'semantic-ui-react'
-import { createGroup } from "../../actions/groupAction";
+import { updateGroup } from "../../../actions/groupAction";
 import * as Yup from "yup";
 import { useDispatch } from 'react-redux';
-
-const styles = (theme) => ({
-    root: {
-        margin: 0,
-    },
-});
+import EditIcon from '@material-ui/icons/Edit';
+import '../../../styles/forms/editgroup.css';
 
 const DialogContent = withStyles((theme) => ({
     root: {
@@ -71,68 +59,24 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const Transition = React.forwardRef(function Transition(props, ref) {
-    return <Slide direction="up" ref={ref} {...props} />;
-});
-
-const wbcOptions = [
-    {
-        key:1,
-        text: 'Normal',
-        value: 'Normal'
-    },
-    {
-        key:2,
-        text: 'PLT Clumping',
-        value: 'PLT Clumping',
-    },
-    {
-        key:3,
-        text: 'Reactive Lymphocytes',
-        value: 'Reactive Lymphocytes',
-    },
-    {
-        key:4,
-        text: 'Hypersegmented Neutrophils',
-        value: 'Hypersegmented Neutrophils',
-    }
-]
-
-
-
-const GroupForm = (props) => {
+const EditGroupForm = (props) => {
     const classes = useStyles();
-    const currentUserId = useSelector(state => state.userReducer._id)
-    const [members, setMembers] = useState([]);
     const dispatch = useDispatch();
 
     const [open, setOpen] = React.useState(false);
-    const [openAdd, setOpenAdd] = React.useState(false);
     const handleClickOpen = () => {
         setOpen(true);
     };
     const handleClose = () => {
         setOpen(false);
     };
-
-    const handeClickAdd = () => {
-        setOpenAdd(true);
-    }
-
-    const handleCloseAdd = () => {
-        setOpenAdd(false);
-    };
-
-    const handleDropChange = (event, data) => {
-        setMembers(data.value);
-    }
     
     const formik = useFormik({
 
         initialValues: {
-            name: '',
-            desc: '',
-            type: '',
+            name: props.group.name,
+            desc: props.group.desc,
+            type: props.group.type,
         },
 
         validationSchema: Yup.object({
@@ -144,13 +88,10 @@ const GroupForm = (props) => {
                 name: formik.values.name,
                 type: formik.values.type,
                 desc: formik.values.desc,
-                creater: currentUserId,
-                admins: [],
-                members: members,
             }
             data = JSON.stringify(data);
             dispatch(
-                createGroup(data)
+                updateGroup(data)
             )
             handleClose()
         },
@@ -160,13 +101,11 @@ const GroupForm = (props) => {
     return (
         <>
             <div>
-                <div onClick={handleClickOpen}>
-                    <CreateGroup title="Create a new group" />
-                </div>
-                <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
+            <EditIcon onClick={handleClickOpen} />
+            <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
                     <DialogContent dividers>
                         <div className="profile-basic">
-                            <div className="profile-username">Create a Group</div>
+                            <div className="profile-username">Edit Group Data</div>
                             <form className={classes.root} onSubmit={formik.handleSubmit} >
                                 <div className="form-top">
                                     <div className="group-form-options">
@@ -196,46 +135,6 @@ const GroupForm = (props) => {
                                                 <MenuItem value={"Study"}>Study</MenuItem>
                                             </Select>
                                         </FormControl>
-
-                                        <Button
-                                            variant="contained"
-                                            color="primary"
-                                            className={classes.button}
-                                            startIcon={<AddCircleOutlineIcon />}
-                                            disableElevation={true}
-                                            onClick={handeClickAdd}
-                                        >
-                                            Add members
-                                        </Button>
-                                        <Dialog
-                                            open={openAdd}
-                                            TransitionComponent={Transition}
-                                            keepMounted
-                                            onClose={handleCloseAdd}
-                                            aria-labelledby="alert-dialog-slide-title"
-                                            aria-describedby="alert-dialog-slide-description"
-                                        >
-                                            <DialogTitle id="alert-dialog-slide-title">{"Add Members into the group"}</DialogTitle>
-                                            <DialogContent className="add-members-dialog-content">
-
-                                                <Dropdown
-                                                    placeholder='USERS'
-                                                    fluid
-                                                    multiple
-                                                    search
-                                                    selection
-                                                    onChange={handleDropChange}
-                                                    options={wbcOptions}
-                                                />
-
-                                            </DialogContent>
-                                            <DialogActions>
-                                                <Button onClick={handleCloseAdd} color="primary">
-                                                    Close
-                                                </Button>
-                                            </DialogActions>
-                                        </Dialog>
-
                                     </div>
                                     <div className="group-profile-image"></div>
                                 </div>
@@ -255,7 +154,7 @@ const GroupForm = (props) => {
                                     className="group-create-button"
                                     disableElevation
                                 >
-                                    Create
+                                    Save
                                 </Button>
                             </form>
                         </div>
@@ -265,4 +164,5 @@ const GroupForm = (props) => {
         </>
     )
 }
-export default GroupForm;
+
+export default EditGroupForm;
