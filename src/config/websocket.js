@@ -1,33 +1,20 @@
-import store from '../store/store';
-store.subscribe(listener)
 
-let userid = 0;
-
-function select(state) {
-  return state.userReducer._id
-}
-
-function listener() {
-  let userId = select(store.getState());
-  userid = userId;
-}
-
-class WebSocketService{
+class WebSocketService {
     static instance = null;
     callbacks = {};
 
-    static getInstance(){
-        if(!WebSocketService.instance){
+    static getInstance() {
+        if (!WebSocketService.instance) {
             WebSocketService.instance = new WebSocketService();
         }
         return WebSocketService.instance;
     }
 
-    constructor(){
+    constructor() {
         this.socketRef = null;
     }
 
-    connect(chatroom_url){
+    connect(chatroom_url) {
         this.socketRef = new WebSocket(chatroom_url);
         this.socketRef.onopen = () => {
             console.log('websocket open');
@@ -37,75 +24,87 @@ class WebSocketService{
         }
         this.socketRef.onerror = e => {
             console.log(e.onerror);
+            this.connect();
         }
         this.socketRef.onclose = () => {
             console.log('websockets closed lets reopen');
-            this.connect();
         }
     }
 
-    socketNewMessage(data){
+    close() {
+        this.socketRef.close();
+    }
+
+    socketNewMessage(data) {
         const parsedData = JSON.parse(data);
-        const command = parsedData.command;
-        if(Object.keys(this.callbacks).length == 0){
+        const command = parsedData.command == undefined ? parsedData.message.command : parsedData.command;
+        if (Object.keys(this.callbacks).length == 0) {
             return;
         }
-        if(command == 'messages'){
+        if (command == 'messages') {
             this.callbacks[command](parsedData.messages);
         }
-        if(command == 'new_message'){
-            this.callbacks[command](parsedData.message)
+        if (command == 'new_message') {
+            this.callbacks[command](parsedData.message.message)
+        }
+        if (command == 'new_image_message'){
+            this.callbacks[command](parsedData.message.message)
         }
     }
 
-    initChatUser(){
+    initChatUser(userid) {
         this.sendMessage({ command: 'init_chat', userid: parseInt(userid) });
     }
 
-    fetchMessages(){
+    fetchMessages(userid) {
         this.sendMessage({ command: 'fetch_messages', userid: parseInt(userid) });
     }
 
-    newChatMessage(message){
-        this.sendMessage({ command: 'new_message', text: message.text, userid: parseInt(userid)});
+    newChatMessage(message, userid) {
+        this.sendMessage({ command: 'new_message', text: message.text, userid: parseInt(userid) });
     }
 
-    addCallbacks(messagesCallback, newMessageCallback){
+    newChatImageMessage(id, userid){
+        this.sendMessage({ command: 'new_image_message', id: id ,userid: parseInt(userid)})
+    }
+
+    addCallbacks(messagesCallback, newMessageCallback, newImageMessageCallback) {
         this.callbacks['messages'] = messagesCallback;
         this.callbacks['new_message'] = newMessageCallback;
+        this.callbacks['new_image_message'] = newImageMessageCallback;
     }
 
-    sendMessage(data){
-        try{
-            this.socketRef.send(JSON.stringify({...data}));
+    sendMessage(data) {
+        try {
+            this.socketRef.send(JSON.stringify({ ...data }));
         }
-        catch(err){
+        catch (err) {
             console.log(err.message);
         }
     }
 
     state() {
         return this.socketRef.readyState;
-      }
-    
-       waitForSocketConnection(callback){
+    }
+
+    waitForSocketConnection(callback) {
         const socket = this.socketRef;
         const recursion = this.waitForSocketConnection;
         setTimeout(
-          function () {
-            if (socket.readyState === 1) {
-              console.log("Connection is made")
-              if(callback != null){
-                callback();
-              }
-              return;
-    
-            } else {
-              console.log("wait for connection...")
-              recursion(callback);
-            }
-          }, 1); // wait 5 milisecond for the connection...
-      }
+            function () {
+                if (socket.readyState === 1) {
+                    console.log("Connection is made")
+                    if (callback != null) {
+                        callback();
+                    }
+                    return;
+
+                } else {
+                    console.log("wait for connection...")
+                    recursion(callback);
+                }
+            }, 1); // wait 5 milisecond for the connection...
+    }
 }
 
 

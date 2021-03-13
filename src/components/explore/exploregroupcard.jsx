@@ -3,6 +3,8 @@ import { Card, Icon, Image } from 'semantic-ui-react'
 import Button from '@material-ui/core/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import { joinGroup } from '../../actions/groupAction';
+import Avatar from 'react-avatar';
+import Cover from '../../images/default-cover.jpg';
 
 const GroupCard = (props) => {
     const dispatch = useDispatch();
@@ -22,21 +24,23 @@ const GroupCard = (props) => {
     }, [])
 
     const join = () => {
-        let data = {
-            members: [...props.group.members, currentUserId]
-        }
-        data = JSON.stringify(data)
+        let data = []
+        props.group.admins.map((user) => 
+            data.push(user.id)
+        )
+        data.push(currentUserId)
+
         dispatch(
-            joinGroup(data, props.group.id)
+            joinGroup({admin_array: data}, props.group.id)
         )
     }
 
     return (
         <>
             <Card className='explore-group-card'>
-                <div className="card-cover-img"></div>
+                <div className="card-cover-img">{props.group.cover == null ? <img className="cover-group" src={Cover} /> : <img className="cover-group" src={props.group.cover} /> }</div>
                 <Card.Content>
-                    <div className="profile-icon"></div>
+                    <div className="profile-icon">{props.group.icon == null ? <Avatar size="40" classname="groupOptionAvatar" name={props.group.name} /> : <img className="icon-group" src={props.group.icon} />}</div>
                     <Card.Header><span className='group-card-heading' >{props.group.name}</span></Card.Header>
                     <Card.Description>
                         <span className='group-card-desc' >{props.group.desc}</span>

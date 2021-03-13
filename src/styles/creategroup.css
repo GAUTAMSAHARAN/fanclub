@@ -28,11 +28,35 @@
     flex-direction: column;
 }
 
+.image-icon-field{
+    height: 100%;
+    width: 100%;
+    display: none !important;
+}
+
+.label{
+    display: none;
+}
+
 .group-profile-image{
     margin-left: 20px;
     width: 40%;
     height: 180px;
     background-color: burlywood;
+    position: relative;
+}
+
+.image-upload-label{
+    color: white;
+    font-family: 'RocknRoll One', sans-serif;
+    width: 100% !important;
+    height: 100% !important;
+    text-align: center;
+    display: block;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
 }
 
 .group-form-textarea{
@@ -54,4 +78,70 @@
     align-items: flex-start;
     justify-content: center;
     height: 300px !important;
+}
+
+.group-cover-image{
+    width: 100%;
+    height: 46px !important;
+    margin-top: 11px;
+    background-color: burlywood;
+    position: relative;
+}
+
+
+.image-cover-field{
+    height: 100%;
+    width: 100%;
+    display: none !important;
+}
+
+.cover-upload-label{
+    width: 100%;
+    height: 100%;
+    font-family: 'RocknRoll One', sans-serif;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.cover-upload-label:hover{
+    cursor: pointer;
+}
+
+.cover-tick{
+    color: white;
+    position: absolute;
+    top: 50%;
+    font-size: 20px;
+    margin-top: -10px;
+    left: 10%;
+}
+
+.profile-tick{
+    color: white;
+    position: absolute;
+    top: 25%;
+    font-size: 20px;
+    left: 50%;
+    margin-left: -10px;
+}
+
+.user-bio-textarea{
+    background-color: transparent !important;
+    width: 350px;
+    outline: none !important;
+    border: 1px solid rgba(0, 0, 0, 0.3) !important;
+    padding: 5px !important;
+    border-radius: 4px;
+    font-family: 'Caveat', cursive;
+}
+
+.create{
+    margin-top: -50px;
+}
+
+#formatted-numberformat-input{
+    width: 350px;
+    margin-top: 20px;
 }

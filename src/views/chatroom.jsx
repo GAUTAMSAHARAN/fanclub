@@ -5,18 +5,22 @@ import MediaHeader from '../components/chatroom/mediaheader';
 import ChatNavbar from '../components/chatroom/navbar';
 import "../styles/chatroom/chatroomlayout.css";
 import { useDispatch, useSelector } from 'react-redux';
-import {currentGroup} from '../actions/groupAction';
+import {getCurrentGroup, getCurrentGroupCreater} from '../actions/groupAction';
 import WebSocketInstance from '../config/websocket';
 
-const Chatroom = (props) => {
+const Chatroom = ({match}) => {
     const dispatch = useDispatch();
-    const user_id = useSelector(state => state.userReducer._id)
-    const id = props.location.state.group.id
+    const [id, setId ]= useState(parseInt(match.params.id))
+    const group = useSelector(state => state.groupReducer.currentGroup)
 
     useEffect(() => {
-        WebSocketInstance.connect(`ws://localhost:8000/ws/chat/${id}/${user_id}`);
-        dispatch(currentGroup(props.location.state.group))
-    }, [])
+        setId(parseInt(match.params.id))
+    }, [match])
+
+    useEffect(() => {
+        dispatch(getCurrentGroup(id))
+        dispatch(getCurrentGroupCreater(group.creater))
+    }, [id])
 
     return (
         <>

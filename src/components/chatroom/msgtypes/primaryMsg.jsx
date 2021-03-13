@@ -1,53 +1,51 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '../../../styles/chatroom/msgtypes/primaryMsg.css';
-import { makeStyles } from '@material-ui/core/styles';
-import Avatar from '@material-ui/core/Avatar';
-import { deepOrange, deepPurple } from '@material-ui/core/colors';
-import { Popup } from 'semantic-ui-react';
-import { Button, Icon } from 'semantic-ui-react'
+import moment from 'moment';
+import Avatar from 'react-avatar';
+import AlertDialog from './deleteDialog';
+import EditMsg from '../../forms/chatroom/editMsg';
+import { useSelector } from 'react-redux';
+import { currentGroupId } from '../../../actions/groupAction';
 
+const PrimaryMsg = (props) => {
+    const format = "LT";
+    const [openEdit, setOpenEdit] = useState(false)
+    const currentUserId = useSelector(state => state.userReducer._id)
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-        display: 'flex',
-        '& > *': {
-            margin: theme.spacing(1),
-        },
-    },
-    orange: {
-        color: theme.palette.getContrastText(deepOrange[500]),
-        backgroundColor: deepOrange[500],
-    },
-    purple: {
-        color: theme.palette.getContrastText(deepPurple[500]),
-        backgroundColor: deepPurple[500],
-    },
-}));
+    const toggleEditForm = () => {
+        setOpenEdit(!openEdit)
+    }
 
-
-const PrimaryMsg = () => {
-    const classes = useStyles();
     return (
         <>
             <div className="primary-msg-container">
                 <div className="primary-msg-avatar">
-                    <div className={classes.root}>
-                        <Avatar>s</Avatar>
-                    </div>
+                    <Avatar size="38" round={true} name={props.msg.username} />
                 </div>
                 <div className="primary-msg-content">
                     <div className="primary-userinfo">
-                        <span className="primary-userinfo-name">saksham katariya</span>
-                        <span className="primary-userinfo-date">11/26/2020</span>
+                        <span className="primary-userinfo-name">{props.msg.username}</span>
+                        <span className="primary-userinfo-date">{moment(props.msg.created_at).format(format)}</span>
                     </div>
-                    <div className="primary-main-msg">
-                        5
+                    {props.msg.imageMsg != null ?
+                        <div className="primary-image-msg">
+                            <img src={props.msg.imageMsg} className="image-msg" />
+                        </div>
+                        :
+                        <div className="primary-main-msg">
+                            {openEdit == true ? <EditMsg msg={props.msg.message} id={props.msg.id} closeEditForm={toggleEditForm} /> : <p>{props.msg.message}</p>}
+                        </div>
+                    }
                 </div>
-                </div>
-                <div className="msg-options">
-                <i class="fas fa-edit msg-options-icon edit-msg-icon"></i>
-                <i class="fas fa-trash msg-options-icon delete-msg-icon"></i>
-                </div>
+                {
+                    currentUserId == props.msg.writer ?
+                        <div className="msg-options">
+                            {props.msg.imageMsg == null ? <i onClick={toggleEditForm} class="fas fa-edit msg-options-icon edit-msg-icon"></i> : ''}
+                            <AlertDialog childComponent={<i class="fas fa-trash msg-options-icon delete-msg-icon"></i>} desc="message" heading="Message" id={props.msg.id} group={false} />
+                        </div>
+                        :
+                        ''
+                }
             </div>
         </>
     )

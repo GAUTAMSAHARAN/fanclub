@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import '../styles/home.css';
 import { withStyles } from '@material-ui/core/styles';
 import { makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import MuiDialogContent from '@material-ui/core/DialogContent';
 import Accordion from '@material-ui/core/Accordion';
@@ -20,10 +19,8 @@ import TextField from '@material-ui/core/TextField';
 import UsernameForm from '../components/forms/profile/username';
 import Phone from '../components/forms/profile/phone';
 import BioForm from '../components/forms/profile/bio';
-import { useSelector } from 'react-redux';
-
-import SideMenuOption from '../components/sidemenu/sidemenuOption';
-
+import { useSelector, useStore } from 'react-redux';
+import Avatar from 'react-avatar';
 
 const styles = (theme) => ({
     root: {
@@ -62,10 +59,9 @@ const useStyles = makeStyles((theme) => ({
 const Home = (props) => {
     const classes = useStyles();
 
-    const [id, setId] = useState(props.user.id)
+    const [id, setId] = useState(props.user.pk)
     const currentUserId = useSelector(state => state.userReducer._id)
-
-    // const currentUserId = useSelector(state => state.userReducer._id)
+    const currentUserBio = useSelector(state => state.userReducer.currentUserBio)
 
     const [open, setOpen] = React.useState(false);
     const handleClickOpen = () => {
@@ -75,7 +71,7 @@ const Home = (props) => {
         setOpen(false);
     };
 
-    const [value, setValue] = React.useState('gsooouuu@gmail.com');
+    const [value, setValue] = React.useState(props.user.email);
     const handleChange = (event) => {
         setValue(event.target.value);
     };
@@ -84,15 +80,15 @@ const Home = (props) => {
         <>
             <div>
                 <div onClick={handleClickOpen}>
-                    <SideMenuOption title="Home" />
+                    {props.childComponent}
                 </div>
                 <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
                     <DialogContent dividers>
                         <div className="profile-basic">
-                            <div className="profile-avatar"></div>
+                            <div className="profile-avatar"><Avatar size="80" name={props.user.username} /></div>
                             <div className="profile-username">{props.user.username}</div>
                             <div className="profile-bio">
-                                {props.user.bio}
+                                {currentUserBio.bio}
                             </div>
                         </div>
                         <div className="profile-primary">
@@ -133,7 +129,7 @@ const Home = (props) => {
                                     </AccordionSummary>
                                     <AccordionDetails>
                                         <div className={classes.root} >
-                                            <UsernameForm user_id={props.user.id} />
+                                            <UsernameForm user_id={props.user.pk} user={props.user} />
                                         </div>
                                     </AccordionDetails>
                                 </Accordion>
@@ -160,7 +156,7 @@ const Home = (props) => {
                                     </AccordionSummary>
                                     <AccordionDetails>
                                         <div className={classes.root} >
-                                            <Phone user_id = {props.user.id} />
+                                            <Phone user_id = {props.user.pk} />
                                         </div>
                                     </AccordionDetails>
                                 </Accordion>
@@ -174,7 +170,7 @@ const Home = (props) => {
                                     </AccordionSummary>
                                     <AccordionDetails>
                                         <div className={classes.root} >
-                                            <BioForm user_id={props.user.id} />
+                                            <BioForm user_id={props.user.pk} />
                                         </div>
                                     </AccordionDetails>
                                 </Accordion>

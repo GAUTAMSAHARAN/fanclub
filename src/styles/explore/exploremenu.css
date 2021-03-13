@@ -37,3 +37,13 @@
     color: var(--exploremenu-active-element-text) !important;
     background-color: var(--exploremenu-active-element-primary) !important;
 }
+
+.cover-group{
+    height: 100%;
+    width: 100%;
+}
+
+.icon-group{
+    width: 100%;
+    height: 100%;
+}

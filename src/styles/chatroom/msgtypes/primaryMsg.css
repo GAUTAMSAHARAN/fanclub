@@ -34,10 +34,26 @@
     height: 22px;
 }
 
+.primary-image-msg{
+    width: 100%;
+    height: fit-content;
+    color: var(--primary-main-msg);
+    margin-top: 5px;
+    margin-bottom: 15px;
+}
+
+.image-msg{
+    display: block;
+    width: 400px;
+    height: 400px;
+}
+
 .primary-main-msg{
     width: 100%;
     height: fit-content;
     color: var(--primary-main-msg);
+    margin-top: 5px;
+    margin-bottom: 15px;
 }
 
 .primary-userinfo-name{
@@ -79,9 +95,9 @@
 
 
 .edit-msg-icon{
-    color: lightgreen;
+    color: #7289DA;
 }
 
 .delete-msg-icon{
-    color: red;
+    color: white;
 }

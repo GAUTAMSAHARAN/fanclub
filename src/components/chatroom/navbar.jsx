@@ -11,6 +11,8 @@ import AddCircleIcon from '@material-ui/icons/AddCircle';
 import { useDispatch, useSelector } from 'react-redux';
 import { showMembers } from '../../actions/chatAction';
 import EditGroupForm from '../forms/chatroom/editGroupInfo';
+import DeleteIcon from '@material-ui/icons/Delete';
+import AlertDialog from '../chatroom/msgtypes/deleteDialog';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -33,16 +35,7 @@ const ChatNavbar = (props) => {
   const dispatch = useDispatch();
   const classes = useStyles();
   const group = useSelector(state => state.groupReducer.currentGroup)
-
-  const [toggleMembers, setToggleMembers] = useState(true)
-
-  const handleToggleMembers = () => {
-    setToggleMembers(!toggleMembers); 
-
-    dispatch(
-      showMembers(toggleMembers)
-    )
-  }
+  const currentUserId = useSelector(state => state.userReducer._id)
 
   return (
     <>
@@ -50,17 +43,8 @@ const ChatNavbar = (props) => {
         <AppBar position="static" className="chatroom-appbar">
           <Toolbar variant="dense">
             <Typography className={classes.title} variant="h6" noWrap>
-              <i class="fas fa-hashtag"></i>  pubbers
-          </Typography>
-          <IconButton
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"  
-              color="inherit"
-              onClick={() => handleToggleMembers()}
-            >
-              <PeopleAltIcon />
-            </IconButton>
+              <i class="fas fa-hashtag"></i>  {group.name}
+            </Typography>
             <IconButton
               aria-label="account of current user"
               aria-controls="menu-appbar"
@@ -77,6 +61,21 @@ const ChatNavbar = (props) => {
             >
               <AddCircleIcon />
             </IconButton>
+            {group.creater == currentUserId ?
+              <IconButton
+                aria-label="delete-group"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                color="inherit"
+              >
+                <AlertDialog childComponent={<DeleteIcon />}
+                  group={true}
+                />
+              </IconButton>
+              :
+              ''
+            }
+
           </Toolbar>
         </AppBar>
       </div>

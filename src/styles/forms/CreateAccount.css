@@ -8,3 +8,9 @@
     margin-top: 10px !important;
     margin-bottom: 20px !important;
 }
+
+.form-errors{
+    color: red;
+    margin-top: -5px;
+    margin-bottom: 5px;
+}

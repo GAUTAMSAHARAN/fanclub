@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { makeStyles } from '@material-ui/core/styles';
 import Dialog from '@material-ui/core/Dialog';
@@ -13,9 +13,15 @@ import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
 import { updateGroup } from "../../../actions/groupAction";
 import * as Yup from "yup";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import EditIcon from '@material-ui/icons/Edit';
-import '../../../styles/forms/editgroup.css';
+import '../../../styles/creategroup.css';
+
+const styles = (theme) => ({
+    root: {
+        margin: 0,
+    },
+});
 
 const DialogContent = withStyles((theme) => ({
     root: {
@@ -58,41 +64,63 @@ const useStyles = makeStyles((theme) => ({
         }
     },
 }));
-
 const EditGroupForm = (props) => {
     const classes = useStyles();
+    const group = useSelector(state => state.groupReducer.currentGroup)
+    const currentUserId = useSelector(state => state.userReducer._id)
     const dispatch = useDispatch();
+    const [icon, setIcon] = useState(null)
+    const [cover, setCover] = useState(null)
 
     const [open, setOpen] = React.useState(false);
+
+    const handleIconChange = (e) => {
+        setIcon(
+            e.target.files[0]
+        )
+    };
+
+    const handleCoverChange = (e) => {
+        setCover(
+            e.target.files[0]
+        )
+    };
+
     const handleClickOpen = () => {
         setOpen(true);
     };
     const handleClose = () => {
         setOpen(false);
     };
-    
+
     const formik = useFormik({
 
         initialValues: {
-            name: props.group.name,
-            desc: props.group.desc,
-            type: props.group.type,
+            name: '',
+            desc: '',
+            type: '',
         },
 
         validationSchema: Yup.object({
             name: Yup.string().required("Required"),
         }),
 
-        onSubmit: values => {
-            let data = {
-                name: formik.values.name,
-                type: formik.values.type,
-                desc: formik.values.desc,
+        onSubmit: (values, {resetForm}) => {
+            const formData = new FormData()
+            formData.append('name', formik.values.name)
+            formData.append('desc', formik.values.desc)
+            formData.append('type', formik.values.type)
+            if(icon != null){
+                formData.append('icon', icon, icon.name)
             }
-            data = JSON.stringify(data);
+            if(cover != null){
+                formData.append('cover', cover, cover.name)
+            }
+            formData.append('creater', currentUserId)
             dispatch(
-                updateGroup(data)
+                updateGroup(formData, group.id)
             )
+            resetForm({})
             handleClose()
         },
 
@@ -102,10 +130,10 @@ const EditGroupForm = (props) => {
         <>
             <div>
             <EditIcon onClick={handleClickOpen} />
-            <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
+                <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
                     <DialogContent dividers>
                         <div className="profile-basic">
-                            <div className="profile-username">Edit Group Data</div>
+                            <div className="profile-username">Edit Group Information</div>
                             <form className={classes.root} onSubmit={formik.handleSubmit} >
                                 <div className="form-top">
                                     <div className="group-form-options">
@@ -135,8 +163,33 @@ const EditGroupForm = (props) => {
                                                 <MenuItem value={"Study"}>Study</MenuItem>
                                             </Select>
                                         </FormControl>
+
+                                        <div className="group-cover-image">
+                                            <label className="cover-upload-label" for="group-cover">Selecte Cover Image</label>
+                                            <input type="file"
+                                                name="cover"
+                                                id="group-cover"
+                                                className="image-cover-field"
+                                                onChange={handleCoverChange}
+                                                accept="image/png, image/jpeg, image/jpg"
+                                            />
+                                            {cover == null ? '' : <i class="fas fa-check-circle cover-tick"></i>
+                                            }
+                                        </div>
+
                                     </div>
-                                    <div className="group-profile-image"></div>
+                                    <div className="group-profile-image">
+                                        <label className="image-upload-label" for="group-icon">Browse Image</label>
+                                        <input type="file"
+                                            name="icon"
+                                            id="group-icon"
+                                            className="image-icon-field"
+                                            onChange={handleIconChange}
+                                            accept="image/png, image/jpeg, image/jpg"
+                                        />
+                                        {icon == null ? '' : <i class="fas fa-check-circle profile-tick"></i>
+                                        }
+                                    </div>
                                 </div>
                                 <TextareaAutosize
                                     className="group-form-textarea"
@@ -154,7 +207,7 @@ const EditGroupForm = (props) => {
                                     className="group-create-button"
                                     disableElevation
                                 >
-                                    Save
+                                    Submit
                                 </Button>
                             </form>
                         </div>
@@ -166,3 +219,4 @@ const EditGroupForm = (props) => {
 }
 
 export default EditGroupForm;
+

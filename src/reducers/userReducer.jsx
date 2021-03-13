@@ -4,24 +4,18 @@ import {
     PATCH_BIO,
     PATCH_PHONE,
     PATCH_USERNAME,
-    GET_USER_ERROR,
-    CHANGE_PHONE_PENDING, 
-    CHANGE_USERNAME_PENDING, 
-    CHANGE_BIO_PENDING,
     GET_USER,
-    GET_USER_PENDING,
     LOGIN_PENDING,
     SET_TOKEN,
     LOGIN_BOOL,
     LOGGEDINORNOT,
     SET_ID,
+    SETS_CURRENT_USER_BIO,
+    SETS_USER_BIO,
+    CREATE_OR_LOGIN,
 } from '../actions/userActionType';
 
 const initialPendingState = {
-    getUserPending: false,
-    changeUsernamePending: false,
-    changePhonePending: false,
-    changeBioPending: false,
     loginPending: false,
 }
 
@@ -32,6 +26,9 @@ const initialState = {
     token: '',
     loggedIn: false,
     logbool: true,
+    currentUserBio: [],
+    userBio: [],
+    create: false,
 }
 
 export default function userReducer(
@@ -45,28 +42,20 @@ export default function userReducer(
             return {...state, loggedIn: payload}
         case LOGIN_BOOL:
             return {...state, logbool: payload}
-        case CHANGE_USERNAME_PENDING:
-            return {...state, changeUsernamePending: payload}
-        case CHANGE_BIO_PENDING:
-            return {...state, changeBioPending: payload}
-        case CHANGE_PHONE_PENDING:
-            return {...state, changePhonePending: payload}
-        case GET_USER_PENDING:
-            return {...state, getUserPending: payload}
         case GET_USER:
             return {...state, user: payload}
         case SET_ID:
             return {...state, _id: payload}
         case LOGIN_PENDING:
             return {...state, loginPending: payload}
+        case SETS_USER_BIO:
+            return {...state, userBio: payload}
+        case SETS_CURRENT_USER_BIO:
+            return {...state, currentUserBio: payload}
+        case CREATE_OR_LOGIN:
+            return {...state, create: payload}
         case PATCH_BIO:
-            return update(state, {
-                user: {
-                    1: {
-                        bio: {$set: payload}
-                    }
-                }
-            })
+            return {...state, currentUserBio: payload}
         case PATCH_USERNAME:
             return  update(state, {
                 user: {
@@ -74,11 +63,7 @@ export default function userReducer(
                 }
             })
         case PATCH_PHONE:
-            return update(state, {
-                user: {
-                        phone: {$set: payload}
-                }
-            })
+            return {...state, currentUserBio: payload}
         default:
             return state;
     }

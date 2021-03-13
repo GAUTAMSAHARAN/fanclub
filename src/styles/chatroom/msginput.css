@@ -2,7 +2,8 @@
     min-height: 50px;
     height: fit-content;
     width: calc(100% - 20px);
-    background-color: #40444B;
+    background-color: #40444B !important;
+    z-index: 100;
     margin-top: -20px;
     border-radius: 5px;
     border: 3px solid #7289DA;
@@ -19,9 +20,25 @@
     justify-content: center;
 }
 
-.msg-textarea-input{
+.msg-input-form{
+    height: fit-content !important;
     width: 100% !important;
-    height: ;
+    border: none !important;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.msg-send{
+    width: 50px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;  
+}
+
+.msg-textarea-input{
+    width: calc(100% - 50px) !important;
     background-color: transparent !important;
     border: none !important;
     color: var(--msg-input-text-primary) !important;
@@ -46,10 +63,37 @@
     color: #DCDDDE;
 }
 
+.image-submit-button{
+    background-color: transparent;
+    border: none;
+    outline: none;
+}
+
+.fa-file-upload{
+    font-size: 25px;
+    color: #DCDDDE;  
+}
+
+.fa-file-upload:hover{
+    cursor: pointer;
+}
+
 .fa-kiss-wink-heart{
     font-size: 25px;
     color: #DCDDDE;
 }
+
+.fa-location-arrow{
+    font-size: 25px;
+    color: #DCDDDE;
+}
+
+.image-cover-field{
+    height: 100%;
+    width: 100%;
+    display: none !important;   
+}
+
 
 .msg-emoji{
     width: 50px;
@@ -59,7 +103,31 @@
     justify-content: center;
 }
 
+
 .msg-input-field{
     background-color: transparent !important;
     height: 45px !important;
+    width: 100% !important;
+    border-bottom: none !important;
+    outline: none !important;
+    color: white !important;
+    font-family: 'Fredoka One', cursive !important;
+}
+
+.msg-input-field::before{
+    border: none !important;
+}
+
+.msg-input-field::after{
+    border: none !important;
+}
+
+.msg-submit-button{
+    background-color: transparent;
+    border: none;
+}
+
+.msg-submit-button:hover{
+    transform: scale(1.1);
+    cursor: pointer;
 }

@@ -1,3 +1,27 @@
 .media-header{
     background-color: var(--chatroom-media-primary) !important;
 }
+
+.media-image-list{
+    height: fit-content;
+    width: 100%;
+    overflow-y: scroll;
+    scrollbar-width: none;
+    padding: 10px 10px 0 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.media-image{
+    margin-bottom: 10px;
+}
+
+.media-image:hover{
+    cursor: pointer;
+}
+
+.media-text{
+    color: white;
+    font-family: 'RocknRoll One', sans-serif;
+}

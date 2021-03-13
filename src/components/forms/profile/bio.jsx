@@ -10,14 +10,17 @@ const BioForm = (props) => {
     const [id, setId] = useState(props.user_id)
     const currentUserId = useSelector(state => state.userReducer._id)
     const dispatch = useDispatch();
-    const bio = useSelector(state => state.userReducer.user["bio"])
+    const bio = useSelector(state => state.userReducer.currentUserBio).bio
+    const bioId = useSelector(state => state.userReducer.currentUserBio).id
 
     const formik = useFormik({
         initialValues: {
             bio: bio,
         },
         onSubmit: values => {
-            changeBio(values.bio)
+            dispatch(
+                changeBio(values.bio, bioId)
+            )
         }
     });
     return (

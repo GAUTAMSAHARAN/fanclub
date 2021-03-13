@@ -15,13 +15,11 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Slide from '@material-ui/core/Slide';
-import { Dropdown } from 'semantic-ui-react'
-import { createGroup } from "../../actions/groupAction";
+
+import { createGroup, currentGroupId } from "../../actions/groupAction";
 import * as Yup from "yup";
 import { useDispatch } from 'react-redux';
+import { SettingsInputComponentRounded } from '@material-ui/icons';
 
 const styles = (theme) => ({
     root: {
@@ -71,43 +69,29 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const Transition = React.forwardRef(function Transition(props, ref) {
-    return <Slide direction="up" ref={ref} {...props} />;
-});
-
-const wbcOptions = [
-    {
-        key:1,
-        text: 'Normal',
-        value: 'Normal'
-    },
-    {
-        key:2,
-        text: 'PLT Clumping',
-        value: 'PLT Clumping',
-    },
-    {
-        key:3,
-        text: 'Reactive Lymphocytes',
-        value: 'Reactive Lymphocytes',
-    },
-    {
-        key:4,
-        text: 'Hypersegmented Neutrophils',
-        value: 'Hypersegmented Neutrophils',
-    }
-]
-
 
 
 const GroupForm = (props) => {
     const classes = useStyles();
     const currentUserId = useSelector(state => state.userReducer._id)
-    const [members, setMembers] = useState([]);
     const dispatch = useDispatch();
+    const [icon, setIcon] = useState(null)
+    const [cover, setCover] = useState(null)
 
     const [open, setOpen] = React.useState(false);
-    const [openAdd, setOpenAdd] = React.useState(false);
+
+    const handleIconChange = (e) => {
+        setIcon(
+            e.target.files[0]
+        )
+    };
+
+    const handleCoverChange = (e) => {
+        setCover(
+            e.target.files[0]
+        )
+    };
+
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -115,18 +99,8 @@ const GroupForm = (props) => {
         setOpen(false);
     };
 
-    const handeClickAdd = () => {
-        setOpenAdd(true);
-    }
 
-    const handleCloseAdd = () => {
-        setOpenAdd(false);
-    };
 
-    const handleDropChange = (event, data) => {
-        setMembers(data.value);
-    }
-    
     const formik = useFormik({
 
         initialValues: {
@@ -140,17 +114,15 @@ const GroupForm = (props) => {
         }),
 
         onSubmit: values => {
-            let data = {
-                name: formik.values.name,
-                type: formik.values.type,
-                desc: formik.values.desc,
-                creater: currentUserId,
-                admins: [],
-                members: members,
-            }
-            data = JSON.stringify(data);
+            const formData = new FormData()
+            formData.append('name', formik.values.name)
+            formData.append('desc', formik.values.desc)
+            formData.append('type', formik.values.type)
+            formData.append('icon', icon, icon.name)
+            formData.append('cover', cover, cover.name)
+            formData.append('creater', currentUserId)
             dispatch(
-                createGroup(data)
+                createGroup(formData)
             )
             handleClose()
         },
@@ -197,47 +169,32 @@ const GroupForm = (props) => {
                                             </Select>
                                         </FormControl>
 
-                                        <Button
-                                            variant="contained"
-                                            color="primary"
-                                            className={classes.button}
-                                            startIcon={<AddCircleOutlineIcon />}
-                                            disableElevation={true}
-                                            onClick={handeClickAdd}
-                                        >
-                                            Add members
-                                        </Button>
-                                        <Dialog
-                                            open={openAdd}
-                                            TransitionComponent={Transition}
-                                            keepMounted
-                                            onClose={handleCloseAdd}
-                                            aria-labelledby="alert-dialog-slide-title"
-                                            aria-describedby="alert-dialog-slide-description"
-                                        >
-                                            <DialogTitle id="alert-dialog-slide-title">{"Add Members into the group"}</DialogTitle>
-                                            <DialogContent className="add-members-dialog-content">
-
-                                                <Dropdown
-                                                    placeholder='USERS'
-                                                    fluid
-                                                    multiple
-                                                    search
-                                                    selection
-                                                    onChange={handleDropChange}
-                                                    options={wbcOptions}
-                                                />
-
-                                            </DialogContent>
-                                            <DialogActions>
-                                                <Button onClick={handleCloseAdd} color="primary">
-                                                    Close
-                                                </Button>
-                                            </DialogActions>
-                                        </Dialog>
+                                        <div className="group-cover-image">
+                                            <label className="cover-upload-label" for="group-cover">Selecte Cover Image</label>
+                                            <input type="file"
+                                                name="cover"
+                                                id="group-cover"
+                                                className="image-cover-field"
+                                                onChange={handleCoverChange}
+                                                accept="image/png, image/jpeg, image/jpg"
+                                            />
+                                            {cover == null ? '' : <i class="fas fa-check-circle cover-tick"></i>
+                                            }
+                                        </div>
 
                                     </div>
-                                    <div className="group-profile-image"></div>
+                                    <div className="group-profile-image">
+                                        <label className="image-upload-label" for="group-icon">Browse Image</label>
+                                        <input type="file"
+                                            name="icon"
+                                            id="group-icon"
+                                            className="image-icon-field"
+                                            onChange={handleIconChange}
+                                            accept="image/png, image/jpeg, image/jpg"
+                                        />
+                                        {icon == null ? '' : <i class="fas fa-check-circle profile-tick"></i>
+                                        }
+                                    </div>
                                 </div>
                                 <TextareaAutosize
                                     className="group-form-textarea"

@@ -3,7 +3,7 @@ import{
 } from '../actions/sidemenuActionType';
 
 const initialState = {
-    id: "Home",
+    id: "explore public groups",
 }
 
 export default function sidemenuReducer (

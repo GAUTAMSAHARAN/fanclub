@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import Home from './home';
 import { useSelector } from 'react-redux';
 import GroupForm from '../components/forms/group';
+import ThemeChanger from '../components/sidemenu/theme';
 
 const SideMenu = () => {
     const user = useSelector(state => state.userReducer.user)
@@ -18,7 +19,6 @@ const SideMenu = () => {
         groups = userGruops.map((group) =>
             <Link to={{
                 pathname: `/fanclub/groups/${group.id}`,
-                state: {group: group}
             }}
             >
                 <SideMenuOption title={group.name} />
@@ -33,7 +33,7 @@ const SideMenu = () => {
         <React.Fragment>
             <div className="sidemenu">
                 <div className="sidemenu-home">
-                    <Home user={user} />
+                    <Home user={user} childComponent={<SideMenuOption title="Home" />} />
                 </div>
                 <div className="line"></div>
                 <div className="sidemenu-chatrooms">
@@ -50,6 +50,7 @@ const SideMenu = () => {
                 </div>
                 <div className="line"></div>
                 <div className="sidemenu-setting">
+                    <ThemeChanger />
                     <Settings />
                 </div>
             </div>

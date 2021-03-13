@@ -20,9 +20,6 @@ const ExploreGroups = () => {
         dispatch(
             getGroups('Home')
         )
-        dispatch(
-            getUserGroup()
-        )
     },[])
 
     const groupList = () => {

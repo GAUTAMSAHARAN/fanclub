@@ -14,13 +14,11 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import GoogleSocialAuth from './googleRegistration';
 import FacebookSocialAuth from './facebookRegistration';
 import { Button, Icon } from 'semantic-ui-react'
-
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import * as Yup from "yup";
-import { loginUser, formSwticher, getUser } from '../../../actions/userAction';
+import { loginUser, formSwticher, getUser, loginWithCookie, toggleLoggedIn } from '../../../actions/userAction';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from "react-router-dom";
+import Cookies from 'js-cookie';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -71,13 +69,19 @@ const LogInForm = () => {
         }
     }, [isLoggedIn]);
 
+    useEffect(() => {
+        if(Cookies.get('token') != undefined){
+            dispatch(toggleLoggedIn(false))
+            dispatch(loginWithCookie(Cookies.get('token')));
+        }
+    }, [])
+
     const formik = useFormik({
 
         initialValues: {
             username: '',
             email: '',
             password: '',
-            toggleCookies: 'false',
         },
 
         validationSchema: Yup.object({
@@ -99,18 +103,60 @@ const LogInForm = () => {
     });
     return (
         <>
-                <form onSubmit={formik.handleSubmit} className="login-form">
-                    <div className="form-heading">Sign In</div>
-                    <TextField
-                        id="outlined-basic"
-                        className="email-input-field"
-                        label="Username"
-                        variant="outlined"
+            <form onSubmit={formik.handleSubmit} className="login-form">
+                <div className="form-heading">Sign In</div>
+                <TextField
+                    id="outlined-basic"
+                    className="email-input-field"
+                    label="Username"
+                    variant="outlined"
+                    color="secondary"
+
+                    name="username"
+                    type="username"
+                    value={formik.values.username}
+                    onChange={formik.handleChange}
+
+                    InputProps={{
+                        classes: {
+                            input: classes.input,
+                        },
+                    }}
+                />
+                <div className="form-error">{formik.errors.username}</div>
+                <TextField
+                    id="outlined-basic"
+                    className="email-input-field"
+                    label="Email"
+                    variant="outlined"
+                    color="secondary"
+
+                    name="email"
+                    type="email"
+                    value={formik.values.email}
+                    onChange={formik.handleChange}
+
+                    InputProps={{
+                        classes: {
+                            input: classes.input,
+                        },
+                    }}
+                />
+                <div className="form-error">{formik.errors.email}</div>
+                <FormControl
+                    className={clsx(classes.margin, classes.textField, classes.input)}
+                    variant="outlined"
+                    color="secondary"
+                >
+                    <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+                    <OutlinedInput
+                        id="outlined-adornment-password"
+                        type={values.showPassword ? 'text' : 'password'}
+                        value={values.password}
                         color="secondary"
 
-                        name="username"
-                        type="username"
-                        value={formik.values.username}
+                        name="password"
+                        value={formik.values.password}
                         onChange={formik.handleChange}
 
                         InputProps={{
@@ -118,94 +164,40 @@ const LogInForm = () => {
                                 input: classes.input,
                             },
                         }}
+                        endAdornment={
+                            <InputAdornment position="end">
+                                <IconButton
+                                    aria-label="toggle password visibility"
+                                    onClick={handleClickShowPassword}
+                                    onMouseDown={handleMouseDownPassword}
+                                    edge="end"
+                                >
+                                    {values.showPassword ? <Visibility /> : <VisibilityOff />}
+                                </IconButton>
+                            </InputAdornment>
+                        }
+                        labelWidth={70}
                     />
-                    <div className="form-error">{formik.errors.username}</div>
-                    <TextField
-                        id="outlined-basic"
-                        className="email-input-field"
-                        label="Email"
-                        variant="outlined"
-                        color="secondary"
-
-                        name="email"
-                        type="email"
-                        value={formik.values.email}
-                        onChange={formik.handleChange}
-
-                        InputProps={{
-                            classes: {
-                                input: classes.input,
-                            },
-                        }}
-                    />
-                    <div className="form-error">{formik.errors.email}</div>
-                    <FormControl
-                        className={clsx(classes.margin, classes.textField, classes.input)}
-                        variant="outlined"
-                        color="secondary"
-                    >
-                        <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
-                        <OutlinedInput
-                            id="outlined-adornment-password"
-                            type={values.showPassword ? 'text' : 'password'}
-                            value={values.password}
-                            color="secondary"
-
-                            name="password"
-                            value={formik.values.password}
-                            onChange={formik.handleChange}
-
-                            InputProps={{
-                                classes: {
-                                    input: classes.input,
-                                },
-                            }}
-                            endAdornment={
-                                <InputAdornment position="end">
-                                    <IconButton
-                                        aria-label="toggle password visibility"
-                                        onClick={handleClickShowPassword}
-                                        onMouseDown={handleMouseDownPassword}
-                                        edge="end"
-                                    >
-                                        {values.showPassword ? <Visibility /> : <VisibilityOff />}
-                                    </IconButton>
-                                </InputAdornment>
-                            }
-                            labelWidth={70}
-                        />
-                    </FormControl>
-                    <div className="form-error">{formik.errors.password}</div>
-                    <div className="social-login">
-                        <GoogleSocialAuth />
-                        <FacebookSocialAuth />
-                    </div>
-                    <div className="checkout-login">
-                        <FormControlLabel
-                            control={
-                                <Checkbox
-                                    name="toggleCookies"
-                                    type="checkbox"
-                                    color="primary"
-                                />
-                            }
-                            label="Stay Signed in"
-                        />
-                    </div>
-                    <Button
-                        icon
-                        className="login-submit-button"
-                        type="submit"
-                    >
-                        <Icon name='arrow right' />
-                    </Button>
-                    <div className="forget-password">
-                        FORGOT PASSWORD?
+                </FormControl>
+                <div className="form-error">{formik.errors.password}</div>
+                <div className="social-login">
+                    <GoogleSocialAuth />
+                    <FacebookSocialAuth />
+                </div>
+                <Button
+                    icon
+                    className="login-submit-button"
+                    type="submit"
+                >
+                    <Icon name='arrow right' />
+                </Button>
+                <div className="forget-password">
+                    FORGOT PASSWORD?
         </div>
-                    <div className="new-account" onClick={(e) => link()}>
-                        CREATE ACCOUNT
+                <div className="new-account" onClick={(e) => link()}>
+                    CREATE ACCOUNT
         </div>
-                </form>
+            </form>
         </>
     )
 }

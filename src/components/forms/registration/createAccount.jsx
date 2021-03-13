@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import '../../../styles/forms/CreateAccount.css';
 
@@ -14,9 +14,13 @@ import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import { Button, Icon } from 'semantic-ui-react'
 import { useDispatch, useSelector } from 'react-redux';
-import { formSwticher, createUser, getUser } from '../../../actions/userAction';
+import { formSwticher, createUser, getUser, setUserData } from '../../../actions/userAction';
 import * as Yup from "yup";
 import { useHistory } from "react-router-dom";
+import { Popup } from 'semantic-ui-react'
+import TextareaAutosize from '@material-ui/core/TextareaAutosize';
+import NumberFormat from 'react-number-format';
+import PropTypes from 'prop-types';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -37,12 +41,41 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+function NumberFormatCustom(props) {
+    const { inputRef, onChange, ...other } = props;
+
+    return (
+        <NumberFormat
+            {...other}
+            getInputRef={inputRef}
+            onValueChange={(values) => {
+                onChange({
+                    target: {
+                        name: props.name,
+                        value: values.value,
+                    },
+                });
+            }}
+            format="+91 (###) ###-####"
+            isNumericString
+            prefix="$"
+        />
+    );
+}
+
+NumberFormatCustom.propTypes = {
+    inputRef: PropTypes.func.isRequired,
+    name: PropTypes.string.isRequired,
+    onChange: PropTypes.func.isRequired,
+};
+
+
 const CreateAccount = () => {
     let history = useHistory();
     const classes = useStyles();
     const dispatch = useDispatch();
     const isLoggedIn = useSelector(state => state.userReducer.loggedIn)
-
+    
     const link = () => {
         dispatch(formSwticher(true))
     }
@@ -58,12 +91,11 @@ const CreateAccount = () => {
     };
 
     useEffect(() => {
-        if(isLoggedIn == true){
+        if (isLoggedIn == true) {
             dispatch(getUser())
-
             history.push({
                 pathname: `/fanclub/explore`,
-              });
+            });
         }
     }, [[isLoggedIn]])
 
@@ -74,6 +106,8 @@ const CreateAccount = () => {
             email: '',
             password: '',
             passwordConfirmation: '',
+            bio: '',
+            numberformat: '0000000000',
         },
 
         validationSchema: Yup.object({
@@ -92,17 +126,23 @@ const CreateAccount = () => {
                 password1: formik.values.password,
                 password2: formik.values.passwordConfirmation,
             }
+            let data2 = {
+                bio: formik.values.bio,
+                phone_number: formik.values.numberformat,
+            }
+            console.log(data2)
             data = JSON.stringify(data);
             dispatch(
                 createUser(data)
             )
+            dispatch(setUserData(data2))
         },
 
     });
 
     return (
         <>
-            <form className="login-form" onSubmit={formik.handleSubmit} >
+            <form className="login-form create" onSubmit={formik.handleSubmit} >
                 <div className="form-heading">Create an Account</div>
                 <TextField
                     id="outlined-basic"
@@ -142,42 +182,50 @@ const CreateAccount = () => {
                     }}
                 />
                 <div className="form-error">{formik.errors.username}</div>
-                <FormControl
-                    className={clsx(classes.margin, classes.textField, classes.input)}
-                    variant="outlined"
-                    color="secondary"
-                >
-                    <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
-                    <OutlinedInput
-                        id="outlined-adornment-password"
-                        type={values.showPassword ? 'text' : 'password'}
-                        value={values.password}
-                        color="secondary"
+                <Popup
+                    trigger={
+                        <FormControl
+                            className={clsx(classes.margin, classes.textField, classes.input)}
+                            variant="outlined"
+                            color="secondary"
+                        >
+                            <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+                            <OutlinedInput
+                                id="outlined-adornment-password"
+                                type={values.showPassword ? 'text' : 'password'}
+                                value={values.password}
+                                color="secondary"
 
-                        name="password"
-                        value={formik.values.password}
-                        onChange={formik.handleChange}
+                                name="password"
+                                value={formik.values.password}
+                                onChange={formik.handleChange}
 
-                        InputProps={{
-                            classes: {
-                                input: classes.input,
-                            },
-                        }}
-                        endAdornment={
-                            <InputAdornment position="end">
-                                <IconButton
-                                    aria-label="toggle password visibility"
-                                    onClick={handleClickShowPassword}
-                                    onMouseDown={handleMouseDownPassword}
-                                    edge="end"
-                                >
-                                    {values.showPassword ? <Visibility /> : <VisibilityOff />}
-                                </IconButton>
-                            </InputAdornment>
-                        }
-                        labelWidth={70}
-                    />
-                </FormControl>
+                                InputProps={{
+                                    classes: {
+                                        input: classes.input,
+                                    },
+                                }}
+                                endAdornment={
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                            aria-label="toggle password visibility"
+                                            onClick={handleClickShowPassword}
+                                            onMouseDown={handleMouseDownPassword}
+                                            edge="end"
+                                        >
+                                            {values.showPassword ? <Visibility /> : <VisibilityOff />}
+                                        </IconButton>
+                                    </InputAdornment>
+                                }
+                                labelWidth={70}
+                            />
+                        </FormControl>
+                    }
+                    content='Password must of at least 8 characters and it must contains both numeric and alphabetic values.'
+                    position='right center'
+                    inverted
+                />
+
                 <div className="form-error">{formik.errors.password}</div>
                 <TextField
                     id="outlined-basic"
@@ -197,6 +245,24 @@ const CreateAccount = () => {
                     }}
                 />
                 <div className="form-error">{formik.errors.passwordConfirmation}</div>
+                <TextareaAutosize
+                    className="user-bio-textarea"
+                    aria-label="minimum height"
+                    rowsMin={3}
+                    placeholder="Put something about yourself"
+                    name="bio"
+                    value={formik.values.bio}
+                    onChange={formik.handleChange}
+                />
+                <TextField
+                    name="numberformat"
+                    value={formik.values.numberformat}
+                    onChange={formik.handleChange}
+                    id="formatted-numberformat-input"
+                    InputProps={{
+                        inputComponent: NumberFormatCustom,
+                    }}
+                />
                 <Button
                     icon
                     className="login-submit-button"

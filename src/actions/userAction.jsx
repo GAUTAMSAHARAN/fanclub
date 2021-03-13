@@ -1,21 +1,22 @@
 import apiClient from '../config/apiClient';
+import { toast } from "react-toastify";
+import Cookies from 'js-cookie';
 
 import {
     PATCH_BIO,
     PATCH_PHONE,
     PATCH_USERNAME,
     GET_USER_ERROR,
-    CHANGE_PHONE_PENDING, 
-    CHANGE_USERNAME_PENDING, 
-    CHANGE_BIO_PENDING,
     GET_USER,
-    GET_USER_PENDING,
     LOGIN_PENDING,
     SET_TOKEN,
     LOGIN_BOOL,
     CREATE_USER_PENDING,
     LOGGEDINORNOT,
     SET_ID,
+    SETS_USER_BIO,
+    SETS_CURRENT_USER_BIO,
+    CREATE_OR_LOGIN,
 } from './userActionType';
 
 import {
@@ -25,6 +26,9 @@ import {
     googleLogin,
     facebookLogin,
     get_user,
+    create_user_bio,
+    update_bio,
+    get_bio,
 } from '../config/urls';
 import axios from 'axios';
 
@@ -43,73 +47,97 @@ const apiError = error => {
     }
 }
 
-export const getUser = () => {
+export const getUser = (callback) => {
     let url = get_user;
     return (dispatch) => {
-        dispatch(apiDispatch(GET_USER_PENDING, true));
         apiClient
             .get(url)
             .then(res => {
-                console.log(res);
                 dispatch(apiDispatch(GET_USER, res.data));
                 dispatch(apiDispatch(SET_ID, res.data.pk));
+                callback(res.data)
             })
             .catch(error => {
                 dispatch(apiError(error));
             })
-        dispatch(apiDispatch(GET_USER_PENDING, false));
     }
 }
 
-export const changeUsername = (username) => {
-    let url = update_user;
+export const changeUsername = (username, id) => {
+    let url = update_user + `${id}/`;
+    let data = {
+        'username': username
+    }
+    data = JSON.stringify(data)
     return dispatch => {
-        dispatch(apiDispatch(CHANGE_USERNAME_PENDING, true));
         apiClient
-            .patch(url)
+            .patch(url, data)
             .then(res => {
                 dispatch(apiDispatch(PATCH_USERNAME, username));
-                dispatch(apiDispatch(CHANGE_USERNAME_PENDING), false);
             })
             .catch(error => {
-                console.log('error')
                 dispatch(apiError(error));
             })
     }
 }
 
-export const changePhone = (phone) => {
-    let url = update_user;
+export const changePhone = (phone, id) => {
+    let url = update_bio + `${id}/`;
+    let data = {
+        phone_number: phone
+    }
+    data = JSON.stringify(data)
     return dispatch => {
-        dispatch(apiDispatch(CHANGE_PHONE_PENDING, true));
-        apiClient 
-            .patch(url)
+        apiClient
+            .patch(url, data)
             .then(res => {
-                dispatch(apiDispatch(PATCH_PHONE, phone));
+                dispatch(apiDispatch(PATCH_PHONE, res.data));
             })
             .catch(error => {
                 dispatch(apiError(error));
             })
-        dispatch(apiDispatch(CHANGE_PHONE_PENDING, false));
     }
 }
 
-export const changeBio = (bio) => {
-    let url = update_user;
+export const changeBio = (bio, id) => {
+    let url = update_bio + `${id}/`;
+    let data = {
+        bio: bio
+    }
+    data = JSON.stringify(data)
     return dispatch => {
-        dispatch(apiDispatch(CHANGE_BIO_PENDING, true));
-        apiClient 
-            .patch(url)
+        apiClient
+            .patch(url, data)
             .then(res => {
-                dispatch(apiDispatch(PATCH_BIO, bio));
+                dispatch(apiDispatch(PATCH_BIO, res.data));
             })
             .catch(error => {
                 dispatch(apiError(error));
             })
-        dispatch(apiDispatch(CHANGE_PHONE_PENDING, false));
     }
 }
 
+export const loginWithCookie = (data) => {
+    return dispatch => {
+        dispatch(apiDispatch(SET_TOKEN, data));
+        dispatch(apiDispatch(LOGGEDINORNOT, true));
+        toast.success('Welcome back, Logged In Successfully', {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
+    }
+}
+
+export const toggleLoggedIn = (data) => {
+    return dispatch => {
+        dispatch(apiDispatch(LOGGEDINORNOT, data))
+    }
+}
 
 export const loginUser = (data) => {
     let url = login;
@@ -119,21 +147,40 @@ export const loginUser = (data) => {
             method: "post",
             url: url,
             data: data,
-            headers: {"Content-type": "application/json; charset=UTF-8"},
+            headers: { "Content-type": "application/json; charset=UTF-8" },
         })
             .then(res => {
                 dispatch(apiDispatch(SET_TOKEN, res.data.key));
                 dispatch(apiDispatch(LOGGEDINORNOT, true));
                 dispatch(apiDispatch(LOGIN_PENDING, false));
+                toast.success('Welcome back, Logged In Successfully', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
+                Cookies.set('token', res.data.key, { expires: 7 });
             })
             .catch(error => {
+                toast.error(`${error.response.data.non_field_errors[0]}`, {
+                    position: "top-center",
+                    autoClose: 5000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
                 dispatch(apiError(error));
             })
     }
 }
 
 export const formSwticher = (data) => {
-    return  dispatch => {
+    return dispatch => {
         dispatch(apiDispatch(LOGIN_BOOL, data));
     }
 }
@@ -146,13 +193,59 @@ export const createUser = (data) => {
             method: "post",
             url: url,
             data: data,
-            headers: {"Content-type": "application/json; charset=UTF-8"},
+            headers: { "Content-type": "application/json; charset=UTF-8" },
         })
             .then(res => {
                 dispatch(apiDispatch(SET_TOKEN, res.data.key));
                 dispatch(apiDispatch(LOGGEDINORNOT, true));
+                dispatch(apiDispatch(CREATE_OR_LOGIN, true))
+                toast.success('Welcome, Your account is successfully created.', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
+                Cookies.set('token', res.data.key, { expires: 7 });
             })
             .catch(error => {
+                console.log(error.response)
+                if (error.response.data.password1 != undefined) {
+                    console.log('hello')
+                    toast.error(`${error.response.data.password1}`, {
+                        position: "top-center",
+                        autoClose: 5000,
+                        hideProgressBar: true,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                    });
+                }
+                if (error.response.data.username != undefined) {
+                    toast.error(`${error.response.data.username}`, {
+                        position: "top-center",
+                        autoClose: 5000,
+                        hideProgressBar: true,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                    });
+                }
+                if (error.response.data.email != undefined) {
+                    toast.error(`${error.response.data.email}`, {
+                        position: "top-center",
+                        autoClose: 5000,
+                        hideProgressBar: true,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                    });
+                }
                 dispatch(apiError(error));
             })
 
@@ -167,14 +260,34 @@ export const GoogleLoginFtn = (data) => {
             method: "POST",
             url: url,
             data: data,
-            headers: {"Content-type": "application/json; charset=UTF-8"},  
+            headers: { "Content-type": "application/json; charset=UTF-8" },
         })
             .then(res => {
                 dispatch(apiDispatch(SET_TOKEN, res.data.key));
                 dispatch(apiDispatch(LOGGEDINORNOT, true));
+                toast.success('Welcome back, Logged In Successfully', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
+                Cookies.set('token', res.data.key, { expires: 7 });
+
             })
             .catch(error => {
                 dispatch(apiError(error));
+                toast.error(`User is already signed In with this email, try to login with either facebook or fill the form`, {
+                    position: "top-center",
+                    autoClose: 5000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
             })
     }
 }
@@ -186,15 +299,86 @@ export const FacebookLoginFtn = (data) => {
             method: "POST",
             url: url,
             data: data,
-            headers: {"Content-type": "application/json; charset=UTF-8"},  
+            headers: { "Content-type": "application/json; charset=UTF-8" },
         })
             .then(res => {
                 dispatch(apiDispatch(SET_TOKEN, res.data.key));
                 dispatch(apiDispatch(LOGGEDINORNOT, true));
+                toast.success('Welcome back, Logged In Successfully', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
+                Cookies.set('token', res.data.key, { expires: 7 });
             })
             .catch(error => {
                 dispatch(apiError(error));
+                toast.error(`User is already signed In with this email, try to login with either google or fill the form`, {
+                    position: "top-center",
+                    autoClose: 5000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
             })
     }
 }
 
+export const LogOut = () => {
+    return dispatch => {
+        dispatch(apiDispatch(SET_TOKEN, ''))
+        dispatch(apiDispatch(LOGGEDINORNOT, false))
+        dispatch(apiDispatch(LOGIN_BOOL, true))
+        dispatch(apiDispatch(CREATE_OR_LOGIN, false))
+    }
+}
+
+
+export const setUserData = (data) => {
+    return dispatch => {
+        dispatch(apiDispatch(SETS_USER_BIO, data))
+    }
+}
+
+export const createUserBio = (data) => {
+    let url = create_user_bio;
+    return dispatch => {
+        apiClient
+            .post(url, data)
+            .then(res => {
+                dispatch(apiDispatch(SETS_CURRENT_USER_BIO, res.data))
+            })
+            .catch(error => {
+                console.log(error)
+            })
+    }
+}
+
+
+export const getUserBio = (id) => {
+    let url = get_bio + `${id}`;
+    return dispatch => {
+        apiClient
+            .get(url)
+            .then(res => {
+                dispatch(apiDispatch(SETS_CURRENT_USER_BIO, res.data[0]))
+            })
+            .catch(error => {
+                console.log(error)
+            })
+    }
+}
+
+export const setUserReducer = (token) => {
+    return dispatch => {
+        dispatch(apiDispatch(SET_TOKEN, token));
+        dispatch(apiDispatch(LOGGEDINORNOT, true));
+        dispatch(apiDispatch(LOGIN_PENDING, false));
+    }
+}   

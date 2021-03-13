@@ -1,36 +1,23 @@
 import React from 'react';
-import { Button, Header, Image, Modal } from 'semantic-ui-react'
+import { useHistory } from "react-router-dom";
+import Cookies from 'js-cookie';
+import {LogOut} from '../../actions/userAction';
+import { useDispatch, useSelector } from 'react-redux';
 
 const Settings = () => {
-    const [open, setOpen] = React.useState(false)
+    let history = useHistory();
+    const dispatch = useDispatch();
+    const logout = () => {
+        Cookies.remove('token', { path: '/'});
+        dispatch(LogOut())
+        history.push({
+            pathname: `/`,
+        });
+    }
 
     return (
         <>
-            <Modal
-                onClose={() => setOpen(false)}
-                onOpen={() => setOpen(true)}
-                open={open}
-                trigger={<i class="fas fa-cog"></i>
-                }
-            >
-                <Modal.Content>
-                    <Modal.Description>
-                        
-                    </Modal.Description>
-                </Modal.Content>
-                <Modal.Actions>
-                    <Button color='black' onClick={() => setOpen(false)}>
-                        Cancel
-        </Button>
-                    <Button
-                        content="Save"
-                        labelPosition='right'
-                        icon='checkmark'
-                        onClick={() => setOpen(false)}
-                        positive
-                    />
-                </Modal.Actions>
-            </Modal>
+        <i class="fas fa-power-off" onClick={logout}></i>
         </>
     )
 }

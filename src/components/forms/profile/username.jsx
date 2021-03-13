@@ -9,18 +9,16 @@ const UsernameForm = (props) => {
     const [id, setId] = useState(props.user_id)
     const currentUserId = useSelector(state => state.userReducer._id)
     const dispatch = useDispatch();
-    const username = useSelector(state => state.userReducer.user["username"])
+    const username = props.user.username;
 
     const formik = useFormik({
         initialValues: {
             username: username,
         },
         onSubmit: (values) => {
-            console.log(values.username);
             dispatch(
-                changeUsername(JSON.stringify(values.username))
+                changeUsername(values.username, currentUserId)
             )
-            alert(JSON.stringify(values, null, 2));
         }
     });
     return (

@@ -41,7 +41,8 @@ const Phone = (props) => {
     const [id, setId] = useState(props.user_id)
     const currentUserId = useSelector(state => state.userReducer._id)
     const dispatch = useDispatch();
-    const phone = useSelector(state => state.userReducer.user["phone"])
+    const phone = useSelector(state => state.userReducer.currentUserBio).phone_number
+    const bioId = useSelector(state => state.userReducer.currentUserBio).id
 
     const formik = useFormik({
         initialValues: {
@@ -49,7 +50,7 @@ const Phone = (props) => {
         },
         onSubmit: values => {
           dispatch(
-            changePhone(values.numberformat)
+            changePhone(values.numberformat, bioId)
           )
         }
     });

@@ -1,0 +1,46 @@
+.edit-msg{
+
+    background-color: #40444B;
+    width: 93%;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.edit-msg-form{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    height: fit-content;
+}
+
+.edit-msg-input{
+    width: 95% !important;
+    background-color: transparent !important;
+    height: 45px !important;
+    border-bottom: none !important;
+    outline: none !important;
+    color: white !important;
+    font-family: 'Fredoka One', cursive !important;
+}
+
+.edit-msg-input::before{
+    border: none !important;
+}
+
+.edit-msg-input::after{
+    border: none !important;
+}
+
+.edit-msg-input:focus{
+    border: none;
+}
+
+.edit-msg-send{
+    width: 5%;
+    height: fit-content;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
