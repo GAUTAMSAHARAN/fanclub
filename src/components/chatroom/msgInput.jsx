@@ -40,9 +40,6 @@ const MsgInput = (props) => {
                 </div>
                 </form>
             </div>
-            <div className="msg-emoji">
-                <i class="fas fa-kiss-wink-heart"></i>
-            </div>
         </>
     )
 }

@@ -17,6 +17,7 @@ import {
     SETS_USER_BIO,
     SETS_CURRENT_USER_BIO,
     CREATE_OR_LOGIN,
+    GET_ALL_USERS,
 } from './userActionType';
 
 import {
@@ -29,6 +30,7 @@ import {
     create_user_bio,
     update_bio,
     get_bio,
+    all_users,
 } from '../config/urls';
 import axios from 'axios';
 
@@ -55,6 +57,7 @@ export const getUser = (callback) => {
             .then(res => {
                 dispatch(apiDispatch(GET_USER, res.data));
                 dispatch(apiDispatch(SET_ID, res.data.pk));
+                dispatch(getUserBio(res.data.pk))
                 callback(res.data)
             })
             .catch(error => {
@@ -62,6 +65,35 @@ export const getUser = (callback) => {
             })
     }
 }
+
+export const getUserBio = (id) => {
+    let url = get_bio + `${id}`;
+    return dispatch => {
+        apiClient
+            .get(url)
+            .then(res => {
+                dispatch(apiDispatch(SETS_CURRENT_USER_BIO, res.data[0]))
+            })
+            .catch(error => {
+                console.log(error)
+            })
+    }
+}
+
+export const createUserBio = (data) => {
+    let url = create_user_bio;
+    return dispatch => {
+        apiClient
+            .post(url, data)
+            .then(res => {
+                dispatch(apiDispatch(SETS_CURRENT_USER_BIO, res.data))
+            })
+            .catch(error => {
+                console.log(error)
+            })
+    }
+}
+
 
 export const changeUsername = (username, id) => {
     let url = update_user + `${id}/`;
@@ -346,35 +378,6 @@ export const setUserData = (data) => {
     }
 }
 
-export const createUserBio = (data) => {
-    let url = create_user_bio;
-    return dispatch => {
-        apiClient
-            .post(url, data)
-            .then(res => {
-                dispatch(apiDispatch(SETS_CURRENT_USER_BIO, res.data))
-            })
-            .catch(error => {
-                console.log(error)
-            })
-    }
-}
-
-
-export const getUserBio = (id) => {
-    let url = get_bio + `${id}`;
-    return dispatch => {
-        apiClient
-            .get(url)
-            .then(res => {
-                dispatch(apiDispatch(SETS_CURRENT_USER_BIO, res.data[0]))
-            })
-            .catch(error => {
-                console.log(error)
-            })
-    }
-}
-
 export const setUserReducer = (token) => {
     return dispatch => {
         dispatch(apiDispatch(SET_TOKEN, token));
@@ -382,3 +385,17 @@ export const setUserReducer = (token) => {
         dispatch(apiDispatch(LOGIN_PENDING, false));
     }
 }   
+
+export const getAllUsers = () => {
+    let url = all_users;
+    return dispatch => {
+        apiClient
+            .get(url)
+            .then(res => {
+                dispatch(apiDispatch(GET_ALL_USERS, res.data))
+            })
+            .catch(error => {
+                console.log(error)
+            })
+    }
+}

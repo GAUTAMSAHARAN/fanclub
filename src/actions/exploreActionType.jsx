@@ -3,3 +3,7 @@ export const GET_GROUPS = "GET_GROUPS";
 export const GET_GROUPS_PENDING = "GET_GROUPS_PENDING";
 
 export const GET_GROUPS_ERROR = "GET_GROUPS_ERROR";
+
+export const GET_SEARCH_GROUPS = "GET_SEARCH_GROUPS";
+
+export const SET_SEARCH = "SET_SEARCH";

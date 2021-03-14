@@ -60,7 +60,7 @@ const Members = () => {
             member = '';
         } else {
             member = group.members.map((user) =>
-                <MemberListCard user={user} />
+                <MemberListCard user={user} admin={false} />
             )
         }
         return (

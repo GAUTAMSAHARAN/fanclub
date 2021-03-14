@@ -5,7 +5,7 @@ import { Container } from 'semantic-ui-react'
 import SideMenu from "./sidemenu";
 import ROUTES, { RenderRoutes } from "../config/routes";
 import { useDispatch, useSelector } from 'react-redux';
-import { setUserReducer, getUser } from '../actions/userAction'
+import { setUserReducer, getUser, getAllUsers } from '../actions/userAction'
 import Cookies from 'js-cookie';
 import { getUserGroup } from '../actions/groupAction';
 
@@ -24,6 +24,9 @@ export default function Layout(props) {
         }
         dispatch(
             getUserGroup()
+        )
+        dispatch(
+            getAllUsers()
         )
     }, [])
 

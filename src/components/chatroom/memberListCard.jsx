@@ -1,6 +1,4 @@
-import React from 'react';
-import { Popup } from 'semantic-ui-react'
-import { Button } from 'semantic-ui-react'
+import React, { useEffect } from 'react';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItem from '@material-ui/core/ListItem';
 import Typography from '@material-ui/core/Typography';
@@ -10,7 +8,7 @@ import Avatar from 'react-avatar';
 import Home from '../../views/home';
 import { Dropdown } from 'semantic-ui-react'
 import { useDispatch, useSelector } from 'react-redux';
-import {makeMember, makeAdmin, currentGroupId} from '../../actions/groupAction';
+import { makeMember, makeAdmin, currentGroupId } from '../../actions/groupAction';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -29,37 +27,46 @@ const MemberListCard = (props) => {
     const dispatch = useDispatch();
     const currentGroup = useSelector(state => state.groupReducer.currentGroup)
     const currentUserId = useSelector(state => state.userReducer._id)
+    const userRole = useSelector(state => state.groupReducer.userRole)
 
     const makeMemberHandler = () => {
         let data = []
-        currentGroup.members.map((user) => 
+        currentGroup.members.map((user) =>
             data.push(user.id)
         )
-        data.push(currentUserId)
+        data.push(props.user.id)
+        let set = new Set(data)
+        data = Array.from(set)
         let data2 = []
         currentGroup.admins.map((user) => {
-            if(user.pk != props.user.pk){
+            if (user.pk != props.user.pk) {
                 data2.push(user.pk)
             }
         })
-        dispatch(makeMember({member_array: data}, currentGroup.id))
-        dispatch(makeAdmin({admin_array: data2}, currentGroup.id))
+        let set2 = new Set(data)
+        data2 = Array.from(set2)
+        dispatch(makeMember({ member_array: data }, currentGroup.id, false))
+        dispatch(makeAdmin({ admin_array: data2 }, currentGroup.id, true))
     }
 
     const makeAdminHandler = () => {
         let data = []
-        currentGroup.admins.map((user) => 
+        currentGroup.admins.map((user) =>
             data.push(user.id)
         )
-        data.push(currentUserId)
+        data.push(props.user.id)
+        let set = new Set(data)
+        data = Array.from(set)
         let data2 = []
         currentGroup.members.map((user) => {
-            if(user.id != props.user.id){
+            if (user.id != props.user.id) {
                 data2.push(user.id)
             }
         })
-        dispatch(makeAdmin({admin_array: data}, currentGroup.id))
-        dispatch(makeMember({member_array: data2}, currentGroup.id))
+        let set2 = new Set(data2)
+        data2 = Array.from(set2)
+        dispatch(makeAdmin({ admin_array: data }, currentGroup.id, false))
+        dispatch(makeMember({ member_array: data2 }, currentGroup.id, true))
     }
 
     return (
@@ -71,6 +78,7 @@ const MemberListCard = (props) => {
                 floating
                 labeled
                 button
+                disabled={props.user.id == currentUserId ? true : false}
                 inverted
                 trigger={
                     <ListItem button className={classes.nested}>
@@ -78,6 +86,7 @@ const MemberListCard = (props) => {
                             <Avatar size="30" classname="memberCardAvatar" name={props.user.username} />
                         </ListItemIcon>
                         <ListItemText primary={<Typography style={{ color: '#DCDDDE', fontFamily: 'Mukta, sans-serif' }}>{props.user.username}</Typography>} />
+                        {props.user.id == currentGroup.creater ? <i class="fas fa-crown"></i> : ''}
                     </ListItem>
                 }
             >
@@ -91,8 +100,19 @@ const MemberListCard = (props) => {
                         />
 
                     </Dropdown.Item>
-                    {props.admin == true ? <Dropdown.Item className="dropdown-user-item" onClick={() => makeMemberHandler()}>Make Member</Dropdown.Item> : <Dropdown.Item className="dropdown-user-item" onClick={() => makeAdminHandler()}>Make Admin</Dropdown.Item>}
-                    <Dropdown.Item className="dropdown-user-item-remove">Kick</Dropdown.Item>
+                    {(userRole.admin == true || userRole.creater == true) && props.admin == false
+                        ?
+                        <Dropdown.Item className="dropdown-user-item" onClick={() => makeAdminHandler()}>Make Admin</Dropdown.Item>
+                        :
+                        ''
+                    }
+                    {
+                        userRole.creater == true && props.admin==true
+                            ?
+                            <Dropdown.Item className="dropdown-user-item" onClick={() => makeMemberHandler()}>Make Member</Dropdown.Item>
+                            :
+                            ''
+                    }
                 </Dropdown.Menu>
             </Dropdown>
 

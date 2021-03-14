@@ -20,10 +20,6 @@ const Explore = () => {
             }
             data = JSON.stringify(data)
             dispatch(createUserBio(data))
-        }else{
-            if(currentUserId != null){
-                dispatch(getUserBio(currentUserId))
-            }
         }
     }, [currentUserId])
 

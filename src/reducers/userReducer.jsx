@@ -13,6 +13,7 @@ import {
     SETS_CURRENT_USER_BIO,
     SETS_USER_BIO,
     CREATE_OR_LOGIN,
+    GET_ALL_USERS,
 } from '../actions/userActionType';
 
 const initialPendingState = {
@@ -29,6 +30,7 @@ const initialState = {
     currentUserBio: [],
     userBio: [],
     create: false,
+    AllUsers: [],
 }
 
 export default function userReducer(
@@ -36,6 +38,8 @@ export default function userReducer(
     { type, payload, error}
 ){
     switch(type){
+        case GET_ALL_USERS:
+            return  {...state, AllUsers:payload}
         case SET_TOKEN:
             return {...state, token: payload}
         case LOGGEDINORNOT:

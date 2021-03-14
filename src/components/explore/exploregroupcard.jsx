@@ -10,35 +10,42 @@ const GroupCard = (props) => {
     const dispatch = useDispatch();
     const currentUserId = useSelector(state => state.userReducer._id)
     const [allowed, setAllowed] = useState(true);
+    const user = useSelector(state => state.userReducer.user)
 
     useEffect(() => {
-        if (props.group.members.includes(currentUserId)) {
-            setAllowed(false)
-        } else if (props.group.admins.includes(currentUserId)) {
-            setAllowed(false)
-        } else if (props.group.creater == currentUserId) {
-            setAllowed(false)
-        } else {
-            setAllowed(true)
+        if (props.group != undefined) {
+            const isUserAdmin = props.group.admins && props.group.admins.some(ele => ele.id == user.pk)
+            const isUserMember = props.group.members && props.group.members.some(ele => ele.id == user.pk)
+            const isUserCreater = props.group.creater && props.group.creater == user.pk
+            if (isUserMember) {
+                setAllowed(false)
+            } else if (isUserAdmin) {
+                setAllowed(false)
+            } else if (isUserCreater) {
+                setAllowed(false)
+            } else {
+                setAllowed(true)
+            }
         }
     }, [])
 
     const join = () => {
         let data = []
-        props.group.admins.map((user) => 
+        props.group.members.map((user) =>
             data.push(user.id)
         )
         data.push(currentUserId)
-
+        let set = new Set(data)
+        data = Array.from(set)
         dispatch(
-            joinGroup({admin_array: data}, props.group.id)
+            joinGroup({ member_array: data }, props.group.id)
         )
     }
 
     return (
         <>
             <Card className='explore-group-card'>
-                <div className="card-cover-img">{props.group.cover == null ? <img className="cover-group" src={Cover} /> : <img className="cover-group" src={props.group.cover} /> }</div>
+                <div className="card-cover-img">{props.group.cover == null ? <img className="cover-group" src={Cover} /> : <img className="cover-group" src={props.group.cover} />}</div>
                 <Card.Content>
                     <div className="profile-icon">{props.group.icon == null ? <Avatar size="40" classname="groupOptionAvatar" name={props.group.name} /> : <img className="icon-group" src={props.group.icon} />}</div>
                     <Card.Header><span className='group-card-heading' >{props.group.name}</span></Card.Header>

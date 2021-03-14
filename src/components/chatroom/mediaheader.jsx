@@ -6,6 +6,7 @@ import { fade, makeStyles } from '@material-ui/core/styles';
 import '../../styles/chatroom/mediaheader.css';
 import { Image } from 'semantic-ui-react'
 import { useSelector } from 'react-redux';
+import ImageView from '../chatroom/imageView';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -25,12 +26,14 @@ const MediaHeader = () => {
     const currentGroupMessages = useSelector(state => state.groupReducer.currentGroupMessages)
 
     const showMedia = () => {
+        let count = 0;
         let media = currentGroupMessages.map((message) => {
             if (message.imageMsg != null) {
-                return <Image className="media-image" src={message.imageMsg} size='medium' wrapped />
+                count++;
+                return <ImageView src={message.imageMsg} component = {<img className="media-image" src={message.imageMsg} />} />
             }
         })
-        if(media.length == 0){
+        if(count == 0){
             return <p className="media-text">No Media has been shared yet.</p>
         }else{
             return (

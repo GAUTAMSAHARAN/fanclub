@@ -11,7 +11,6 @@ import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import EmailIcon from '@material-ui/icons/Email';
 import PersonIcon from '@material-ui/icons/Person';
-import LockIcon from '@material-ui/icons/Lock';
 import PhoneIcon from '@material-ui/icons/Phone';
 import NotesIcon from '@material-ui/icons/Notes';
 import TextField from '@material-ui/core/TextField';
@@ -21,6 +20,8 @@ import Phone from '../components/forms/profile/phone';
 import BioForm from '../components/forms/profile/bio';
 import { useSelector, useStore } from 'react-redux';
 import Avatar from 'react-avatar';
+import apiClient from '../config/apiClient';
+import { get_bio } from '../config/urls';
 
 const styles = (theme) => ({
     root: {
@@ -59,10 +60,11 @@ const useStyles = makeStyles((theme) => ({
 const Home = (props) => {
     const classes = useStyles();
 
-    const [id, setId] = useState(props.user.pk)
+    const [id, setId] = useState('')
     const currentUserId = useSelector(state => state.userReducer._id)
     const currentUserBio = useSelector(state => state.userReducer.currentUserBio)
-
+    const [userBio, setUserBio] = useState([])
+    const [value, setValue] = useState('');
     const [open, setOpen] = React.useState(false);
     const handleClickOpen = () => {
         setOpen(true);
@@ -71,10 +73,30 @@ const Home = (props) => {
         setOpen(false);
     };
 
-    const [value, setValue] = React.useState(props.user.email);
-    const handleChange = (event) => {
-        setValue(event.target.value);
-    };
+    useEffect(() => {
+        if(props.user.pk != undefined){
+            setId(props.user.pk)
+        }
+        if(props.user.email != undefined){
+            setValue(props.user.email)
+        }
+    }, [currentUserId])
+
+    useEffect(() => {
+        if(id != '' && props.user.id != currentUserId){
+            let url = get_bio + `${id}`;
+            apiClient
+                .get(url)
+                .then(res => {
+                    console.log(res.data)
+                    setUserBio(res.data[0])
+                })
+                .catch(error => {
+                    console.log(error);
+                })
+        }
+    }, [id])
+
 
     return (
         <>
@@ -88,7 +110,7 @@ const Home = (props) => {
                             <div className="profile-avatar"><Avatar size="80" name={props.user.username} /></div>
                             <div className="profile-username">{props.user.username}</div>
                             <div className="profile-bio">
-                                {currentUserBio.bio}
+                                {props.user.id !== currentUserId ? <>{userBio.bio}</> : <>{currentUserBio.bio}</>}
                             </div>
                         </div>
                         <div className="profile-primary">
@@ -111,7 +133,6 @@ const Home = (props) => {
                                                     multiline
                                                     rowsMax={4}
                                                     value={value}
-                                                    onChange={handleChange}
                                                     variant="outlined"
                                                     disabled={true}
                                                 />
@@ -133,19 +154,6 @@ const Home = (props) => {
                                         </div>
                                     </AccordionDetails>
                                 </Accordion>
-                                {
-                                    id == currentUserId ? <Accordion className="option-3">
-                                        <AccordionSummary
-                                            expandIcon={<ExpandMoreIcon />}
-                                            aria-controls="panel2a-content"
-                                            id="panel2a-header"
-                                        >
-                                            <Typography className={classes.heading}><LockIcon className="profile-icons" /> Password</Typography>
-                                        </AccordionSummary>
-                                        <AccordionDetails>
-                                        </AccordionDetails>
-                                    </Accordion> : ''
-                                }
                                 <Accordion className="option-4">
                                     <AccordionSummary
                                         expandIcon={<ExpandMoreIcon />}
@@ -156,7 +164,7 @@ const Home = (props) => {
                                     </AccordionSummary>
                                     <AccordionDetails>
                                         <div className={classes.root} >
-                                            <Phone user_id = {props.user.pk} />
+                                            <Phone user_id = {props.user.pk} userBio = {userBio} />
                                         </div>
                                     </AccordionDetails>
                                 </Accordion>
@@ -170,7 +178,7 @@ const Home = (props) => {
                                     </AccordionSummary>
                                     <AccordionDetails>
                                         <div className={classes.root} >
-                                            <BioForm user_id={props.user.pk} />
+                                            <BioForm user_id={props.user.pk} userBio = {userBio} />
                                         </div>
                                     </AccordionDetails>
                                 </Accordion>

@@ -14,12 +14,9 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
-import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
-
-import { createGroup, currentGroupId } from "../../actions/groupAction";
+import { createGroup} from "../../actions/groupAction";
 import * as Yup from "yup";
 import { useDispatch } from 'react-redux';
-import { SettingsInputComponentRounded } from '@material-ui/icons';
 
 const styles = (theme) => ({
     root: {
@@ -118,8 +115,12 @@ const GroupForm = (props) => {
             formData.append('name', formik.values.name)
             formData.append('desc', formik.values.desc)
             formData.append('type', formik.values.type)
-            formData.append('icon', icon, icon.name)
-            formData.append('cover', cover, cover.name)
+            if(icon != null){
+                formData.append('icon', icon, icon.name)
+            }
+            if(cover != null){
+                formData.append('cover', cover, cover.name)
+            }
             formData.append('creater', currentUserId)
             dispatch(
                 createGroup(formData)

@@ -18,6 +18,8 @@ import {
     EDIT_MESSAGE,
     SET_CURRENT_GROUP_CREATER,
     SET_NEW_IMAGE_MESSAGE,
+    ADD_MEMBERS,
+    SET_ROLE,
 } from './groupActionType';
 
 import {
@@ -101,7 +103,7 @@ export const joinGroup = (data, id) => {
             .patch(url, data)
             .then(res => {
                 dispatch(apiDispatch(JOIN_GROUP, res.data));
-                toast.success(`${res.data.name} is successfully Joined.`, {
+                toast.success(`you have successfully Joined.`, {
                     position: "top-right",
                     autoClose: 5000,
                     hideProgressBar: false,
@@ -125,22 +127,26 @@ export const joinGroup = (data, id) => {
             })
     }
 }
-export const makeMember = (data, id) => {
+
+
+export const makeMember = (data, id, remove) => {
     let url = join_group + `${id}` + '/updatemember/';
     return (dispatch) => {
         apiClient
             .patch(url, data)
             .then(res => {
-                dispatch(apiDispatch(JOIN_GROUP, res.data));
-                toast.success(`${res.data.name} is now a member of this group.`, {
-                    position: "top-right",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                });
+                dispatch(apiDispatch(ADD_MEMBERS, res.data));
+                if(remove == false){
+                    toast.success(`Make Member Request succeed`, {
+                        position: "top-right",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                    });
+                }
             })
             .catch(error => {
                 dispatch(apiError(error));
@@ -157,22 +163,24 @@ export const makeMember = (data, id) => {
     }
 }
 
-export const makeAdmin = (data, id) => {
+export const makeAdmin = (data, id, remove) => {
     let url = join_group + `${id}` + '/updateadmins/';
     return (dispatch) => {
         apiClient
             .patch(url, data)
             .then(res => {
-                dispatch(apiDispatch(JOIN_GROUP, res.data));
-                toast.success(`${res.data.name} is now an admin of this group.`, {
-                    position: "top-right",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                });
+                dispatch(apiDispatch(ADD_MEMBERS, res.data));
+                if(remove == false){
+                    toast.success(`Make Admin request succeed`, {
+                        position: "top-right",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                    });
+                }
             })
             .catch(error => {
                 dispatch(apiError(error));
@@ -311,6 +319,7 @@ export const getCurrentGroup = (id) => {
             .then(res => {
                 dispatch(currentGroupId(res.data.id))
                 dispatch(currentGroup(res.data))
+                dispatch(getCurrentGroupCreater(res.data.creater))
             })
             .catch(error => {
                 console.log(error)
@@ -356,5 +365,11 @@ export const createMessage = (data) => {
 export const resetImageMessage = () => {
     return dispatch => {
         dispatch(apiDispatch(SET_NEW_IMAGE_MESSAGE,null))
+    }
+}
+
+export const setUserRole = (data) => {
+    return dispatch => {
+        dispatch(apiDispatch(SET_ROLE, data))
     }
 }

@@ -15,6 +15,8 @@ import {
     EDIT_MESSAGE,
     SET_CURRENT_GROUP_CREATER,
     SET_NEW_IMAGE_MESSAGE,
+    ADD_MEMBERS,
+    SET_ROLE,
 } from '../actions/groupActionType';
 
 const initialPendingState = {
@@ -30,6 +32,11 @@ const initialState = {
     currentGroupId: null,
     currentGroupCreater: null,
     newImageMessage: null,
+    userRole: { 
+        admin: false,
+        creater: false,
+        member: false,
+    },
 }
 
 export default function groupReducer(
@@ -37,6 +44,10 @@ export default function groupReducer(
     { type, payload, error}
 ){
     switch(type){
+        case SET_ROLE:
+            return {...state, userRole: payload}
+        case ADD_MEMBERS:
+            return {...state, currentGroup: payload}
         case SET_NEW_IMAGE_MESSAGE:
             return {...state, newImageMessage: payload}
         case SET_CURRENT_GROUP_CREATER:

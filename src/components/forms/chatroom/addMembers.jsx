@@ -1,8 +1,13 @@
-import React from 'react';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Slide from '@material-ui/core/Slide';
-import { Dropdown } from 'semantic-ui-react';
+import React, { useEffect, useState } from 'react';
+import { withStyles, makeStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+import AddCircleIcon from '@material-ui/icons/AddCircle';
+import Dialog from '@material-ui/core/Dialog';
+import MuiDialogContent from '@material-ui/core/DialogContent';
+import { Dropdown } from 'semantic-ui-react'
+import '../../../styles/chatroom/addMembers.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { makeMember } from '../../../actions/groupAction';
 
 const styles = (theme) => ({
     root: {
@@ -13,7 +18,8 @@ const styles = (theme) => ({
 const DialogContent = withStyles((theme) => ({
     root: {
         padding: theme.spacing(2),
-        backgroundColor: '#FAA61A',
+        backgroundColor: '#CSEEE3',
+        minHeight: '350px',
         height: 'fit-content',
         width: '568px',
     },
@@ -52,92 +58,94 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const Transition = React.forwardRef(function Transition(props, ref) {
-    return <Slide direction="up" ref={ref} {...props} />;
-});
-
-
-const wbcOptions = [
-    {
-        key: 1,
-        text: 'Normal',
-        value: 'Normal'
-    },
-    {
-        key: 2,
-        text: 'PLT Clumping',
-        value: 'PLT Clumping',
-    },
-    {
-        key: 3,
-        text: 'Reactive Lymphocytes',
-        value: 'Reactive Lymphocytes',
-    },
-    {
-        key: 4,
-        text: 'Hypersegmented Neutrophils',
-        value: 'Hypersegmented Neutrophils',
-    }
-]
-
 const AddMembers = () => {
-    const [openAdd, setOpenAdd] = React.useState(false);
-    const [members, setMembers] = useState([]);
-
-
-    const handeClickAdd = () => {
-        setOpenAdd(true);
-    }
-
-    const handleCloseAdd = () => {
-        setOpenAdd(false);
+    const classes = useStyles();
+    const [open, setOpen] = React.useState(false);
+    const [members, setMembers] = useState([])
+    const allUsers = useSelector(state => state.userReducer.AllUsers)
+    const [users, setUsers] = useState([])
+    const currentGroup = useSelector(state => state.groupReducer.currentGroup)
+    const dispatch = useDispatch()
+    const handleClickOpen = () => { 
+        setOpen(true);
+    };
+    const handleClose = () => {
+        setOpen(false);
     };
 
-    const handleDropChange = (event, data) => {
-        setMembers(data.value);
+    const handleDropChange = (event, {value}) => {
+        setMembers(value);
     }
+
+    const handleSubmit = () => {
+        let data = []
+        currentGroup.members.map((user) => 
+            data.push(user.id)
+        )
+        members.map((obj) => 
+            data.push(obj)
+        )
+        let set = new Set(data)
+        data = Array.from(set)
+        dispatch(
+            makeMember({member_array: data}, currentGroup.id)      
+        )
+    }
+
+    useEffect(() => {
+        if(allUsers.length != 0){
+            let array = [];
+            let temp = allUsers.map((user, index) => {
+                let obj = {
+                    key: index,
+                    text: user.username,
+                    value: user.id,
+                }
+                array.push(obj)
+            })
+            setUsers(array)
+        }
+    }, [allUsers])
+
     return (
         <>
-            <Button
-                variant="contained"
-                color="primary"
-                className={classes.button}
-                startIcon={<AddCircleOutlineIcon />}
-                disableElevation={true}
-                onClick={handeClickAdd}
-            >
-                Add members
-            </Button>
-            <Dialog
-                open={openAdd}
-                TransitionComponent={Transition}
-                keepMounted
-                onClose={handleCloseAdd}
-                aria-labelledby="alert-dialog-slide-title"
-                aria-describedby="alert-dialog-slide-description"
-            >
-                <DialogTitle id="alert-dialog-slide-title">{"Add Members into the group"}</DialogTitle>
-                <DialogContent className="add-members-dialog-content">
-
-                    <Dropdown
-                        placeholder='USERS'
-                        fluid
-                        multiple
-                        search
-                        selection
-                        onChange={handleDropChange}
-                        options={wbcOptions}
-                    />
-
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleCloseAdd} color="primary">
-                        Close
-                                                </Button>
-                </DialogActions>
-            </Dialog>
+            <div>
+                <div onClick={handleClickOpen}>
+                    <AddCircleIcon />
+                </div>
+                <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
+                    <DialogContent dividers>
+                        <div className="profile-basic">
+                            <div className="form-heading-add-members">ADD MEMBERS</div>
+                            <form className={classes.root} >
+                                <Dropdown
+                                    placeholder='USERS'
+                                    fluid
+                                    multiple
+                                    search
+                                    selection
+                                    onChange={handleDropChange}
+                                    options={users}
+                                    className = "dropdown-add-members"
+                                />
+                                <p className='add-members-desc'>Just select all the users who you want to make them members through this search multiple select dropdown and click on Submit.</p>
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                    className="add-members-button"
+                                    disableElevation
+                                    onClick={handleSubmit}
+                                >
+                                    Submit
+                                </Button>
+                            </form>
+                        </div>
+                    </DialogContent>
+                </Dialog>
+            </div>
         </>
     )
 }
 
 export default AddMembers;
+

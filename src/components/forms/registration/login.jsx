@@ -191,9 +191,6 @@ const LogInForm = () => {
                 >
                     <Icon name='arrow right' />
                 </Button>
-                <div className="forget-password">
-                    FORGOT PASSWORD?
-        </div>
                 <div className="new-account" onClick={(e) => link()}>
                     CREATE ACCOUNT
         </div>

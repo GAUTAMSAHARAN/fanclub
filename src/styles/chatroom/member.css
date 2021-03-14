@@ -65,3 +65,7 @@
 .menu::after{
     background: black !important;
 }
+
+.fa-crown{
+    color: yellow;
+}
