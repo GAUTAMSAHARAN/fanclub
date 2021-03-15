@@ -1,5 +1,4 @@
 .dark{
-    font-size: 16px;
 
     /* side-menu */
     --side-menu-primary: #202225;
@@ -18,10 +17,99 @@
     /* chatroom-members-list */
     --chatroom-members-primary: #2F3136;
     --chatroom-members-text-primary: #dcddde;
+    --chatroom-members-secondary: #33363C;
 
     
     /* chatroom-members-card */
     --chatroom-member-card-hover: rgba(79,84,92,0.16);
     --chatroom-member-card-text-hover: #dcddde;
     --chatroom-member-card-text: #8e9297;
+
+    /*sidemenu popups */
+    --sidemenu-popups-primary: black;
+    --sidemenu-popups-text: #dcddde;
+
+    /*sidemenu highlight options */
+    --sidemenu-extra-text: #43b581;
+
+    /* explore sidemenu */
+    --exploremenu-primary: #2F3136;
+    --exploremenu-text-primary: #DCDDDE;
+    --exploremenu-active-element-primary: #7289DA;
+    --exploremenu-active-element-text: #FFFFFF;
+    --exploremenu-heading: #FFFFFF;
+
+    --root-background: #36393F;
+
+    /*chatroom */
+    --chatroom-media-primary: #2F3136;
+    --chatroom-media-text-primary: #909295;
+    --chatroom-media-secondary: #dcddde;
+    --chatroom-chatbox-primary: #36393F;
+    --chatroom-chatbox-secondary: #2F3136;
+    --chatroom-navbar-primary: #36393F;
+
+    /* msg-input */
+    --msg-input-text-primary: #dcddde;
+
+    /* primary-msg */
+    --primary-msg-hover-background: #32353B;
+    --primary-userinfo-text: #FFFFFF;
+    --priamry-date: #71757C;
+    --primary-main-msg: #DCDDDE;
+
+    /* home */
+    --profile-primary: #18191C;
+    --profile-option-1: #7289DA;
+    --profile-option-2: #FAA61A;
+    --profile-option-3: #F04747;
+    --profile-option-4: #747F8D;
+    --profile-option-5: #43B581;
+
+
+    --msg-scrollbar-color: black #2F3136;
+}
+
+.light{
+        /* side-menu */
+    --side-menu-primary: #2B0025;
+    --sdie-menu-secondary: #6E5169;
+    --side-menu-text-primary: #dcddde;
+    --side-menu-text-highlight: #43b581;
+    --side-menu-option-highlight: white;
+
+
+        /* explore sidemenu */
+    --exploremenu-primary: #4C0043;
+    --exploremenu-text-primary: #DCDDDE;
+    --exploremenu-active-element-primary: #7289DA;
+    --exploremenu-active-element-text: #FFFFFF;
+    --exploremenu-heading: #FFFFFF;
+
+            /* chatroom-navbar */
+    --chatroom-navbar-primary: #c6d7eb;
+    --chatroom-nanvbar-text-primary: #fff;
+    --chatroom-navbar-search-primary: #202225;
+
+        /*chatroom */
+    --chatroom-media-primary: #4C0043;
+    --chatroom-media-text-primary: #909295;
+    --chatroom-media-secondary: #dcddde;
+    --chatroom-chatbox-primary: #FFFFFF;
+    --chatroom-chatbox-secondary: #2F3136;    
+    
+
+        /* primary-msg */
+    --primary-msg-hover-background: #F3F3F3;
+    --primary-userinfo-text: #9E7AEA;
+    --priamry-date: #71757C;
+    --primary-main-msg: #3C414F;
+
+    --root-background: #ffffff;
+
+    --chatroom-members-primary: #c6d7eb;
+    --chatroom-members-text-primary: #d9a5b3;
+    --chatroom-members-secondary: #1868ae;
+
+    --msg-scrollbar-color: #A1809C white;
 }

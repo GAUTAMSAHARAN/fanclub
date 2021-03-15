@@ -5,7 +5,7 @@ import rootReducer from '../reducers/rootReducer';
 import monitorReducerEnhancer from '../redux/enhancers/monitorReducer';
 import logger from '../redux/middleware/logger';
 
-export default function configureStore(preloadedState){
+function configureStore(preloadedState){
    const middlewares = [logger, thunkMiddleware]
    const middlewareEnhancer = applyMiddleware(...middlewares)
 
@@ -16,3 +16,7 @@ export default function configureStore(preloadedState){
 
    return store
 }
+
+const store = configureStore();
+
+export default store;

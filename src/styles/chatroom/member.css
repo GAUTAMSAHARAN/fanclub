@@ -1,0 +1,71 @@
+.members-box{
+    height: 100%;
+    width: 100%;
+    padding: 10px 10px 0 10px;
+}
+
+.MuiListItem-button:hover{
+    background-color: var(--chatroom-members-secondary) !important;
+}
+
+.MuiListItemIcon-root{
+    min-width: 40px !important;    
+}
+
+.group-members-options{
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+}
+
+.member-options{
+    border-radius: 0 !important;
+    margin-bottom: 10px !important;
+    width: 150px !important;
+}
+
+.remove-member{
+    background-color: #F04747 !important;
+}
+
+.create-admin{
+    background-color: #4BB543 !important;
+    margin-bottom: 5px !important;
+}
+
+.memberCardAvatar{
+    height: 40% !important; 
+    width: 40% !important;
+    border-radius: 50% !important;
+}
+
+.dropdown-user-menu{
+    background-color: black !important;
+    padding: 10px !important;
+    border: 1px solid black !important;
+}
+
+.dropdown-user-item:hover{
+    background-color: #5C6FB1 !important;
+    color: #F4F5FA !important;
+}
+
+.dropdown-user-item-remove:hover{
+    color: #F4F5FA !important;
+    background-color: #F04747 !important;
+}
+
+.dropdown-profile-span{
+    display: block;
+    width: 150px !important;
+    height: 100% !important; 
+}
+
+.menu::after{
+    background: black !important;
+}
+
+.fa-crown{
+    color: yellow;
+}

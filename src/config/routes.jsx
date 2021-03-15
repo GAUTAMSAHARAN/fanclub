@@ -3,25 +3,32 @@ import { Route, Switch, Redirect } from "react-router-dom";
 
 import Chatroom from '../views/chatroom';
 import Explore from '../views/explore';
-import Home from '../views/home';
+import Registration from '../views/registration';
+import Cookies from 'js-cookie';
+
+export const createId =
+  (window.uuid && typeof window.uuid.v4 === 'function' && window.uuid.v4) ||
+  function b(a) {
+    return a
+      ? (a ^ ((Math.random() * 16) >> (a / 4))).toString(16)
+      : ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, b)
+}
 
 const ROUTES = [
-    {path: "/", key: "ROOT", exact: true, component: Chatroom },
+    {path: "/", key: "ROOT", exact: true, component: Registration },
     {
         path: "/fanclub",
         key: "APP",
-        component: props =>  <RenderRoutes {...props} />,
+        component:  props => {
+            if (!Cookies.get('token')){
+              return <Redirect to={"/"} />;
+            }
+            return <RenderRoutes {...props} />;
+        },
         routes: [
             {
-                path: "/fanclub/@me",
-                key: "APP_ROOT",
-                exact: true,
-                component: Home,
-            },
-            {
-                path: "/fanclub/:id",
-                key: "CHAT_ROOM",
-                exact: true, 
+                path: "/fanclub/groups/:id",
+                key: createId(),
                 component: Chatroom,
             },
             {

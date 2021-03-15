@@ -1,0 +1,6 @@
+.chatroom-appbar{
+    background-color: var(--chatroom-navbar-primary) !important;
+}
+.fa-hashtag{
+    color: #72767D;
+}

@@ -1,0 +1,25 @@
+.registration-container{
+    height: 100vh;
+    width: 100vw;
+    background-color: #2F2F2F;
+}
+
+.registration-form{
+    width: 510px;
+    min-height: 535px;
+    height: fit-content;
+    background-color: #F9F9F9;
+    position: absolute;
+    left: 50%;
+    margin-left: -255px;
+    top: 50%;
+    margin-top: -330px;
+}
+
+.site-logo{
+    height: 100px;
+    width: 100px;
+    position: absolute;
+    top: 25px;
+    left: 25px;
+}

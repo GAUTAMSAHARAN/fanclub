@@ -7,6 +7,10 @@
     background-color: var(--sdie-menu-secondary);
     color: var(--side-menu-text-primary);
     transition: background-color .15s ease-out, color .15s ease-out;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
 }
 
 .sidemenuoption:hover{
@@ -15,11 +19,66 @@
     color: var(--side-menu-text-highlight);
 }
 
-.active{
+.option-active{
     margin-top: 15px;
     margin-bottom: 3px;
     border: 2px solid white;
     border-radius: 12px;
     background-color: var(--side-menu-option-highlight);
     color: var(--side-menu-text-highlight);
+}
+
+.home-active{
+    margin-top: 15px;
+    margin-bottom: 3px;
+    border: 2px solid white;
+    border-radius: 12px;
+    background-color: white;
+}
+
+.extra{
+    height: 48px;
+    width: 48px;   
+    border-radius: 50%;
+    margin: auto;
+    margin-top: 12px;
+    background-color: var(--sdie-menu-secondary);
+    color: var(--sidemenu-extra-text) !important;
+    transition: background-color .15s ease-out, color .15s ease-out;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.extra:hover{
+    background-color: var(--sidemenu-extra-text); 
+    color: white !important;
+    border-radius: 12px;
+}
+
+.extra-active{
+    background-color: var(--sidemenu-extra-text);
+    color: white !important;
+    margin-top: 15px;
+    margin-bottom: 3px;
+    border: 2px solid white;
+    border-radius: 12px;
+}
+
+.extra-plus{
+    font-size: 20px;
+}
+
+.extra-compass{
+    font-size: 20px;
+}
+.groupOptionAvatar{
+    background-color: transparent !important;
+    font-family: 'Caveat', cursive !important;
+}
+
+.home-icon{
+    height: 30px;
+    width: 30px;
 }

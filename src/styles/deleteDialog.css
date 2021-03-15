@@ -1,0 +1,19 @@
+.delete-dialog{
+    background-color: black !important;
+}
+
+.delete-dialog-header{
+    color: #F04747;
+}
+
+.delete-dialog-desc{
+    color: #dcdddc !important;
+}
+
+.delete-disagree-button{
+    color: #dcdddc !important;
+}
+
+.delete-agree-button{
+    color: #F04747 !important;
+}

@@ -1,0 +1,77 @@
+.profile-basic{
+    width: 100%;
+    height: fit-content;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profile-avatar{
+    margin-bottom: 20px;
+    height: 80px;
+    width: 80px;
+    background-color: lightblue;
+}
+
+.profile-username{
+    font-family: 'Fredoka One', cursive;
+    color: white;
+    margin-bottom: 20px;
+}
+
+.profile-bio{
+    width: 80%;
+    text-align: center;
+    font-family: 'Caveat', cursive;
+    color: white;
+    font-size: 18px;
+}
+
+.option-1{
+    background-color: #7289DA !important;
+}
+
+.option-2{
+    background-color: #FAA61A !important;
+}
+.option-3{
+    background-color: #F04747 !important;
+}
+.option-4{
+    background-color: #747F8D !important;
+}
+.option-5{
+    background-color: #43B581 !important;
+}
+
+.profile-icons{
+    margin-right: 10px;
+}
+
+.data-container{
+    height: fit-content;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.save-button-profile{
+    background-color: transparent !important;
+}
+
+.profile-textarea{
+    background-color: transparent !important;
+    width: 380px;
+    outline: none !important;
+    border: 1px solid rgba(0, 0, 0, 0.3) !important;
+    padding: 5px !important;
+    border-radius: 4px;
+    font-family: 'Caveat', cursive;
+}
+
+.Mui-disabled{
+    color: rgba(0, 0, 0, 0.68) !important;
+}
