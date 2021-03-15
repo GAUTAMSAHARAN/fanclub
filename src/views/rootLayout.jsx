@@ -32,7 +32,7 @@ export default function Layout(props) {
 
     return (
         <React.Fragment>
-            <Container className='layout-container dark variables'>
+            <Container className='layout-container dark variables' id="root-layout">
                 <div style={{ display: loggedIn == true ? 'block' : 'none' }} className="layout-sidemenu">
                     <SideMenu />
                 </div>

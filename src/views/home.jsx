@@ -18,10 +18,11 @@ import TextField from '@material-ui/core/TextField';
 import UsernameForm from '../components/forms/profile/username';
 import Phone from '../components/forms/profile/phone';
 import BioForm from '../components/forms/profile/bio';
-import { useSelector, useStore } from 'react-redux';
+import { useDispatch, useSelector, useStore } from 'react-redux';
 import Avatar from 'react-avatar';
 import apiClient from '../config/apiClient';
 import { get_bio } from '../config/urls';
+import { getCurrentProfile } from '../actions/userAction';
 
 const styles = (theme) => ({
     root: {
@@ -59,11 +60,13 @@ const useStyles = makeStyles((theme) => ({
 
 const Home = (props) => {
     const classes = useStyles();
-
+    const dispatch = useDispatch()
     const [id, setId] = useState('')
+
     const currentUserId = useSelector(state => state.userReducer._id)
     const currentUserBio = useSelector(state => state.userReducer.currentUserBio)
-    const [userBio, setUserBio] = useState([])
+    const userBio = useSelector(state => state.userReducer.currentProfileBio)
+    
     const [value, setValue] = useState('');
     const [open, setOpen] = React.useState(false);
     const handleClickOpen = () => {
@@ -74,26 +77,17 @@ const Home = (props) => {
     };
 
     useEffect(() => {
-        if(props.user.pk != undefined){
-            setId(props.user.pk)
+        if(props.user.id != undefined){
+            setId(props.user.id)
         }
         if(props.user.email != undefined){
             setValue(props.user.email)
         }
-    }, [currentUserId])
+    }, [props.user])
 
     useEffect(() => {
-        if(id != '' && props.user.id != currentUserId){
-            let url = get_bio + `${id}`;
-            apiClient
-                .get(url)
-                .then(res => {
-                    console.log(res.data)
-                    setUserBio(res.data[0])
-                })
-                .catch(error => {
-                    console.log(error);
-                })
+        if(id != ''){
+            dispatch(getCurrentProfile(id))
         }
     }, [id])
 
@@ -150,7 +144,7 @@ const Home = (props) => {
                                     </AccordionSummary>
                                     <AccordionDetails>
                                         <div className={classes.root} >
-                                            <UsernameForm user_id={props.user.pk} user={props.user} />
+                                            <UsernameForm user_id={props.user.id} user={props.user} />
                                         </div>
                                     </AccordionDetails>
                                 </Accordion>
@@ -164,7 +158,7 @@ const Home = (props) => {
                                     </AccordionSummary>
                                     <AccordionDetails>
                                         <div className={classes.root} >
-                                            <Phone user_id = {props.user.pk} userBio = {userBio} />
+                                            <Phone user_id = {props.user.id} userBio = {userBio} />
                                         </div>
                                     </AccordionDetails>
                                 </Accordion>
@@ -178,7 +172,7 @@ const Home = (props) => {
                                     </AccordionSummary>
                                     <AccordionDetails>
                                         <div className={classes.root} >
-                                            <BioForm user_id={props.user.pk} userBio = {userBio} />
+                                            <BioForm user_id={props.user.id} userBio = {userBio} />
                                         </div>
                                     </AccordionDetails>
                                 </Accordion>

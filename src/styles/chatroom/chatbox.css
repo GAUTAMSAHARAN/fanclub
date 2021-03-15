@@ -18,7 +18,7 @@
     width: 100%;
     height: calc(100% - 50px);
     overflow-y: scroll;
-    scrollbar-color: black #2F3136;
+    scrollbar-color: var(--msg-scrollbar-color);
     border-bottom: 1px solid #7289DA;
     padding-top: 20px;
 }

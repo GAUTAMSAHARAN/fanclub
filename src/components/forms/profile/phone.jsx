@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { useFormik } from 'formik';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -38,11 +38,18 @@ function NumberFormatCustom(props) {
 
 const Phone = (props) => {
 
-    const [id, setId] = useState(props.user_id)
+    const [id, setId] = useState('')
     const currentUserId = useSelector(state => state.userReducer._id)
     const dispatch = useDispatch();
-    const phone = useSelector(state => state.userReducer.currentUserBio).phone_number
-    const bioId = useSelector(state => state.userReducer.currentUserBio).id
+    const phone = useSelector(state => state.userReducer.currentProfileBio).phone_number
+    const bioId = useSelector(state => state.userReducer.currentProfileBio).id
+
+    useEffect(() => {
+      if(props.user_id != undefined){
+          setId(props.user_id)
+      }
+  }, [])
+
 
     const formik = useFormik({
         initialValues: {

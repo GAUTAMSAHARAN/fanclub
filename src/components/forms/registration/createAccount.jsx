@@ -14,7 +14,7 @@ import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import { Button, Icon } from 'semantic-ui-react'
 import { useDispatch, useSelector } from 'react-redux';
-import { formSwticher, createUser, getUser, setUserData } from '../../../actions/userAction';
+import { formSwticher, createUser, getUser } from '../../../actions/userAction';
 import * as Yup from "yup";
 import { useHistory } from "react-router-dom";
 import { Popup } from 'semantic-ui-react'
@@ -130,12 +130,10 @@ const CreateAccount = () => {
                 bio: formik.values.bio,
                 phone_number: formik.values.numberformat,
             }
-            console.log(data2)
             data = JSON.stringify(data);
             dispatch(
-                createUser(data)
+                createUser(data, data2)
             )
-            dispatch(setUserData(data2))
         },
 
     });

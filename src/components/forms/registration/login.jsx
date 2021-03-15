@@ -62,7 +62,6 @@ const LogInForm = () => {
     useEffect(() => {
         if (isLoggedIn == true) {
             dispatch(getUser())
-
             history.push({
                 pathname: `/fanclub/explore`,
             });

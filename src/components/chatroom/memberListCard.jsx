@@ -9,6 +9,7 @@ import Home from '../../views/home';
 import { Dropdown } from 'semantic-ui-react'
 import { useDispatch, useSelector } from 'react-redux';
 import { makeMember, makeAdmin, currentGroupId } from '../../actions/groupAction';
+import { getCurrentProfile } from '../../actions/userAction';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -28,6 +29,12 @@ const MemberListCard = (props) => {
     const currentGroup = useSelector(state => state.groupReducer.currentGroup)
     const currentUserId = useSelector(state => state.userReducer._id)
     const userRole = useSelector(state => state.groupReducer.userRole)
+
+    useEffect(() => {
+        if (props.user.id != undefined) {
+            dispatch(getCurrentProfile(props.user.id))
+        }
+    }, [props.user.id])
 
     const makeMemberHandler = () => {
         let data = []
@@ -107,7 +114,7 @@ const MemberListCard = (props) => {
                         ''
                     }
                     {
-                        userRole.creater == true && props.admin==true
+                        userRole.creater == true && props.admin == true
                             ?
                             <Dropdown.Item className="dropdown-user-item" onClick={() => makeMemberHandler()}>Make Member</Dropdown.Item>
                             :

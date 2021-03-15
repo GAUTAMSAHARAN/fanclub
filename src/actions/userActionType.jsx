@@ -23,3 +23,5 @@ export const SETS_USER_BIO = "SET_USER_BIO";
 export const SETS_CURRENT_USER_BIO = "SETS_CURRENT_USER_BIO";
 export const CREATE_OR_LOGIN = "CREATE_OR_LOGIN";
 export const GET_ALL_USERS = "GET_ALL_USERS";
+
+export const SETS_USER_PROFILE = "SET_USER_PROFILE";

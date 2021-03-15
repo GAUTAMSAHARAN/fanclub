@@ -18,6 +18,7 @@ import {
     SETS_CURRENT_USER_BIO,
     CREATE_OR_LOGIN,
     GET_ALL_USERS,
+    SETS_USER_PROFILE,
 } from './userActionType';
 
 import {
@@ -64,6 +65,20 @@ export const getUser = (callback) => {
                 dispatch(apiError(error));
             })
     }
+}
+
+export const getCurrentProfile = (id) => {
+    let url = get_bio + `${id}`;
+    return dispatch => {
+        apiClient
+            .get(url)
+            .then(res => {
+                dispatch(apiDispatch(SETS_USER_PROFILE, res.data[0]))
+            })
+            .catch(error => {
+                console.log(error)
+            })
+    }   
 }
 
 export const getUserBio = (id) => {
@@ -217,7 +232,7 @@ export const formSwticher = (data) => {
     }
 }
 
-export const createUser = (data) => {
+export const createUser = (data, data2) => {
     let url = registration;
     return dispatch => {
         dispatch(apiDispatch(CREATE_USER_PENDING, true));
@@ -231,6 +246,9 @@ export const createUser = (data) => {
                 dispatch(apiDispatch(SET_TOKEN, res.data.key));
                 dispatch(apiDispatch(LOGGEDINORNOT, true));
                 dispatch(apiDispatch(CREATE_OR_LOGIN, true))
+                data2.user = res.data.key
+                data2 = JSON.stringify(data2)
+                dispatch(createUserBio(data2))
                 toast.success('Welcome, Your account is successfully created.', {
                     position: "top-right",
                     autoClose: 5000,
@@ -296,6 +314,13 @@ export const GoogleLoginFtn = (data) => {
         })
             .then(res => {
                 dispatch(apiDispatch(SET_TOKEN, res.data.key));
+                let data = {
+                    bio: '',
+                    phone: '',
+                    user: res.data.key
+                }
+                data = JSON.stringify(data)
+                dispatch(createUserBio(data))
                 dispatch(apiDispatch(LOGGEDINORNOT, true));
                 toast.success('Welcome back, Logged In Successfully', {
                     position: "top-right",
@@ -336,6 +361,13 @@ export const FacebookLoginFtn = (data) => {
             .then(res => {
                 dispatch(apiDispatch(SET_TOKEN, res.data.key));
                 dispatch(apiDispatch(LOGGEDINORNOT, true));
+                let data = {
+                    bio: '',
+                    phone: '',
+                    user: res.data.key
+                }
+                data = JSON.stringify(data)
+                dispatch(createUserBio(data))
                 toast.success('Welcome back, Logged In Successfully', {
                     position: "top-right",
                     autoClose: 5000,

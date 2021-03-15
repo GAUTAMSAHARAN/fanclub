@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import Button from '@material-ui/core/Button';
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
@@ -7,11 +7,17 @@ import { changeBio } from '../../../actions/userAction';
 
 const BioForm = (props) => {
 
-    const [id, setId] = useState(props.user_id)
+    const [id, setId] = useState('')
     const currentUserId = useSelector(state => state.userReducer._id)
     const dispatch = useDispatch();
-    const bio = useSelector(state => state.userReducer.currentUserBio).bio
-    const bioId = useSelector(state => state.userReducer.currentUserBio).id
+    const bio = useSelector(state => state.userReducer.currentProfileBio).bio
+    const bioId = useSelector(state => state.userReducer.currentProfileBio).id
+
+    useEffect(() => {
+        if(props.user_id != undefined){
+            setId(props.user_id)
+        }
+    }, [])
 
     const formik = useFormik({
         initialValues: {
