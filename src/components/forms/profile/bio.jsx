@@ -10,19 +10,24 @@ const BioForm = (props) => {
     const [id, setId] = useState('')
     const currentUserId = useSelector(state => state.userReducer._id)
     const dispatch = useDispatch();
-    const bio = useSelector(state => state.userReducer.currentProfileBio).bio
-    const bioId = useSelector(state => state.userReducer.currentProfileBio).id
+    const [bioData, setBioData] = useState('')
+    const [bioId, setBioId] = useState(null)
 
     useEffect(() => {
         if(props.user_id != undefined){
             setId(props.user_id)
         }
+        if(props.bio != undefined){
+            setBioData(props.bio.bio)
+            setBioId(props.bio.id)
+          }
     }, [])
 
     const formik = useFormik({
         initialValues: {
-            bio: bio,
+            bio: bioData,
         },
+        enableReinitialize: true,
         onSubmit: values => {
             dispatch(
                 changeBio(values.bio, bioId)
