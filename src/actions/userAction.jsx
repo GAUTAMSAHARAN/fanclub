@@ -15,11 +15,13 @@ import {
     LOGGEDINORNOT,
     SET_ID,
     SETS_USER_BIO,
-    SETS_CURRENT_USER_BIO,
     CREATE_OR_LOGIN,
     GET_ALL_USERS,
-    SETS_USER_PROFILE,
 } from './userActionType';
+
+import {
+    GET_USER_GROUPS,
+} from './groupActionType'
 
 import {
     update_user,
@@ -28,9 +30,9 @@ import {
     googleLogin,
     facebookLogin,
     get_user,
+    get_user_groups,
     create_user_bio,
     update_bio,
-    get_bio,
     all_users,
 } from '../config/urls';
 import axios from 'axios';
@@ -50,7 +52,7 @@ const apiError = error => {
     }
 }
 
-export const getUser = (callback) => {
+export const getUser = (data2) => {
     let url = get_user;
     return (dispatch) => {
         apiClient
@@ -58,8 +60,13 @@ export const getUser = (callback) => {
             .then(res => {
                 dispatch(apiDispatch(GET_USER, res.data));
                 dispatch(apiDispatch(SET_ID, res.data.pk));
-                dispatch(getUserBio(res.data.pk))
-                callback(res.data)
+                dispatch(getUserGroup())
+                if(data2 != undefined){
+                    console.log('hello')
+                    data2.user = res.data.pk
+                    data2 = JSON.stringify(data2)
+                    dispatch(createUserBio(data2))
+                }
             })
             .catch(error => {
                 dispatch(apiError(error));
@@ -67,33 +74,20 @@ export const getUser = (callback) => {
     }
 }
 
-export const getCurrentProfile = (id) => {
-    let url = get_bio + `${id}`;
-    return dispatch => {
+export const getUserGroup = () => {
+    let url = get_user_groups;
+    return (dispatch) => {
         apiClient
             .get(url)
             .then(res => {
-                dispatch(apiDispatch(SETS_USER_PROFILE, res.data[0]))
+                dispatch(apiDispatch(GET_USER_GROUPS, res.data));
             })
             .catch(error => {
-                console.log(error)
-            })
-    }   
-}
-
-export const getUserBio = (id) => {
-    let url = get_bio + `${id}`;
-    return dispatch => {
-        apiClient
-            .get(url)
-            .then(res => {
-                dispatch(apiDispatch(SETS_CURRENT_USER_BIO, res.data[0]))
-            })
-            .catch(error => {
-                console.log(error)
+                dispatch(apiError(error));
             })
     }
 }
+
 
 export const createUserBio = (data) => {
     let url = create_user_bio;
@@ -101,7 +95,7 @@ export const createUserBio = (data) => {
         apiClient
             .post(url, data)
             .then(res => {
-                dispatch(apiDispatch(SETS_CURRENT_USER_BIO, res.data))
+                console.log(res.data)
             })
             .catch(error => {
                 console.log(error)
@@ -121,6 +115,15 @@ export const changeUsername = (username, id) => {
             .patch(url, data)
             .then(res => {
                 dispatch(apiDispatch(PATCH_USERNAME, username));
+                toast.success('Your Username has been successfully updated', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
             })
             .catch(error => {
                 dispatch(apiError(error));
@@ -139,6 +142,15 @@ export const changePhone = (phone, id) => {
             .patch(url, data)
             .then(res => {
                 dispatch(apiDispatch(PATCH_PHONE, res.data));
+                toast.success('Your Phone Number has been successfully updated', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
             })
             .catch(error => {
                 dispatch(apiError(error));
@@ -157,6 +169,15 @@ export const changeBio = (bio, id) => {
             .patch(url, data)
             .then(res => {
                 dispatch(apiDispatch(PATCH_BIO, res.data));
+                toast.success('Your Bio has been successfully updated', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
             })
             .catch(error => {
                 dispatch(apiError(error));
@@ -246,9 +267,7 @@ export const createUser = (data, data2) => {
                 dispatch(apiDispatch(SET_TOKEN, res.data.key));
                 dispatch(apiDispatch(LOGGEDINORNOT, true));
                 dispatch(apiDispatch(CREATE_OR_LOGIN, true))
-                data2.user = res.data.key
-                data2 = JSON.stringify(data2)
-                dispatch(createUserBio(data2))
+                dispatch(getUser(data2))
                 toast.success('Welcome, Your account is successfully created.', {
                     position: "top-right",
                     autoClose: 5000,
@@ -416,7 +435,7 @@ export const setUserReducer = (token) => {
         dispatch(apiDispatch(LOGGEDINORNOT, true));
         dispatch(apiDispatch(LOGIN_PENDING, false));
     }
-}   
+}
 
 export const getAllUsers = () => {
     let url = all_users;

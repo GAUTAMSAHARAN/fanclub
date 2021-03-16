@@ -58,14 +58,12 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const Home = (props) => {
+const Home = ({user, childComponent, bio}) => {
     const classes = useStyles();
     const dispatch = useDispatch()
     const [id, setId] = useState('')
 
     const currentUserId = useSelector(state => state.userReducer._id)
-    const currentUserBio = useSelector(state => state.userReducer.currentUserBio)
-    const userBio = useSelector(state => state.userReducer.currentProfileBio)
     
     const [value, setValue] = useState('');
     const [open, setOpen] = React.useState(false);
@@ -77,34 +75,30 @@ const Home = (props) => {
     };
 
     useEffect(() => {
-        if(props.user.id != undefined){
-            setId(props.user.id)
+        console.log(bio)
+        if(user.id != undefined){
+            setId(user.id)
         }
-        if(props.user.email != undefined){
-            setValue(props.user.email)
+        if(user.pk != undefined){
+            setId(user.pk)
         }
-    }, [props.user])
-
-    useEffect(() => {
-        if(id != ''){
-            dispatch(getCurrentProfile(id))
+        if(user.email != undefined){
+            setValue(user.email)
         }
-    }, [id])
-
+    }, [user, bio])
 
     return (
-        <>
             <div>
                 <div onClick={handleClickOpen}>
-                    {props.childComponent}
+                    {childComponent}
                 </div>
                 <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
-                    <DialogContent dividers>
+                    <DialogContent dividers onClick={e => {e.stopPropagation()}}>
                         <div className="profile-basic">
-                            <div className="profile-avatar"><Avatar size="80" name={props.user.username} /></div>
-                            <div className="profile-username">{props.user.username}</div>
+                            <div className="profile-avatar"><Avatar size="80" name={user.username} /></div>
+                            <div className="profile-username">{user.username}</div>
                             <div className="profile-bio">
-                                {props.user.id !== currentUserId ? <>{userBio.bio}</> : <>{currentUserBio.bio}</>}
+                                {bio.bio}
                             </div>
                         </div>
                         <div className="profile-primary">
@@ -144,7 +138,7 @@ const Home = (props) => {
                                     </AccordionSummary>
                                     <AccordionDetails>
                                         <div className={classes.root} >
-                                            <UsernameForm user_id={props.user.id} user={props.user} />
+                                            <UsernameForm user_id={id} user={user} />
                                         </div>
                                     </AccordionDetails>
                                 </Accordion>
@@ -158,7 +152,7 @@ const Home = (props) => {
                                     </AccordionSummary>
                                     <AccordionDetails>
                                         <div className={classes.root} >
-                                            <Phone user_id = {props.user.id} userBio = {userBio} />
+                                            <Phone user_id = {id} bio={bio}/>
                                         </div>
                                     </AccordionDetails>
                                 </Accordion>
@@ -172,7 +166,7 @@ const Home = (props) => {
                                     </AccordionSummary>
                                     <AccordionDetails>
                                         <div className={classes.root} >
-                                            <BioForm user_id={props.user.id} userBio = {userBio} />
+                                            <BioForm user_id={id} bio={bio} />
                                         </div>
                                     </AccordionDetails>
                                 </Accordion>
@@ -181,7 +175,6 @@ const Home = (props) => {
                     </DialogContent>
                 </Dialog>
             </div>
-        </>
     )
 }
 export default Home

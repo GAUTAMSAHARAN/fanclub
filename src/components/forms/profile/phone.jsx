@@ -41,12 +41,17 @@ const Phone = (props) => {
     const [id, setId] = useState('')
     const currentUserId = useSelector(state => state.userReducer._id)
     const dispatch = useDispatch();
-    const phone = useSelector(state => state.userReducer.currentProfileBio).phone_number
-    const bioId = useSelector(state => state.userReducer.currentProfileBio).id
+    const [phone, setPhone] = useState('')
+    const [bioId, setBioId] = useState(null)
 
+    
     useEffect(() => {
       if(props.user_id != undefined){
           setId(props.user_id)
+      }
+      if(props.bio != undefined){
+        setPhone(props.bio.phone_number)
+        setBioId(props.bio.id)
       }
   }, [])
 
@@ -55,12 +60,15 @@ const Phone = (props) => {
         initialValues: {
             numberformat: phone,
         },
+        enableReinitialize: true,
         onSubmit: values => {
           dispatch(
             changePhone(values.numberformat, bioId)
           )
         }
     });
+
+  
     return (
         <>
 

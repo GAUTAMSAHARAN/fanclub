@@ -10,8 +10,6 @@ import {
     LOGIN_BOOL,
     LOGGEDINORNOT,
     SET_ID,
-    SETS_CURRENT_USER_BIO,
-    SETS_USER_PROFILE,
     CREATE_OR_LOGIN,
     GET_ALL_USERS,
 } from '../actions/userActionType';
@@ -27,8 +25,6 @@ const initialState = {
     token: '',
     loggedIn: false,
     logbool: true,
-    currentUserBio: [],
-    currentProfileBio: [],
     create: false,
     AllUsers: [],
 }
@@ -52,10 +48,6 @@ export default function userReducer(
             return {...state, _id: payload}
         case LOGIN_PENDING:
             return {...state, loginPending: payload}
-        case SETS_USER_PROFILE:
-            return {...state, currentProfileBio: payload}
-        case SETS_CURRENT_USER_BIO:
-            return {...state, currentUserBio: payload}
         case CREATE_OR_LOGIN:
             return {...state, create: payload}
         case PATCH_BIO:
