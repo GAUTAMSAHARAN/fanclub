@@ -11,8 +11,6 @@ import ExpandMore from '@material-ui/icons/ExpandMore';
 import MemberListCard from './memberListCard';
 import { useDispatch, useSelector } from 'react-redux';
 import PlaceHolder from '../placeholder';
-import { get_bio } from '../../config/urls';
-import apiClient from '../../config/apiClient';
 
 const useStyles = makeStyles((theme) => ({
     root: {

@@ -95,9 +95,9 @@
 
 
 .edit-msg-icon{
-    color: #7289DA;
+    color: var(--edit-msg);
 }
 
 .delete-msg-icon{
-    color: white;
+    color: var(--delete-msg);
 }
