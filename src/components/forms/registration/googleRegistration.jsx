@@ -35,7 +35,7 @@ const GoogleSocialAuth = () => {
     return (
         <div className="App">
             <GoogleLogin
-                clientId="<put your google client id here>"
+                clientId="202543433119-8sgh66r7n06ocqsb30ac3licrhibdmkj.apps.googleusercontent.com"
                 render={renderProps => (
                     <Button
                         className="google-login-button"
