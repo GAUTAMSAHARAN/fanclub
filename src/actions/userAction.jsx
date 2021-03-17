@@ -62,7 +62,6 @@ export const getUser = (data2) => {
                 dispatch(apiDispatch(SET_ID, res.data.pk));
                 dispatch(getUserGroup())
                 if(data2 != undefined){
-                    console.log('hello')
                     data2.user = res.data.pk
                     data2 = JSON.stringify(data2)
                     dispatch(createUserBio(data2))
@@ -335,11 +334,9 @@ export const GoogleLoginFtn = (data) => {
                 dispatch(apiDispatch(SET_TOKEN, res.data.key));
                 let data = {
                     bio: '',
-                    phone: '',
-                    user: res.data.key
+                    phone_number: '',
                 }
-                data = JSON.stringify(data)
-                dispatch(createUserBio(data))
+                dispatch(getUser(data))
                 dispatch(apiDispatch(LOGGEDINORNOT, true));
                 toast.success('Welcome back, Logged In Successfully', {
                     position: "top-right",
@@ -382,11 +379,9 @@ export const FacebookLoginFtn = (data) => {
                 dispatch(apiDispatch(LOGGEDINORNOT, true));
                 let data = {
                     bio: '',
-                    phone: '',
-                    user: res.data.key
+                    phone_number: '',
                 }
-                data = JSON.stringify(data)
-                dispatch(createUserBio(data))
+                dispatch(getUser(data))
                 toast.success('Welcome back, Logged In Successfully', {
                     position: "top-right",
                     autoClose: 5000,

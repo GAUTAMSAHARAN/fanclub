@@ -39,19 +39,19 @@ const MemberListCard = ({user, admin}) => {
 
     const makeMemberHandler = () => {
         let data = []
-        currentGroup.members.map((user) =>
-            data.push(user.id)
+        currentGroup.members.map((member) =>
+            data.push(member.id)
         )
         data.push(user.id)
         let set = new Set(data)
         data = Array.from(set)
         let data2 = []
-        currentGroup.admins.map((user) => {
-            if (user.pk != user.pk) {
-                data2.push(user.pk)
+        currentGroup.admins.map((admin) => {
+            if (admin.id != user.id) {
+                data2.push(admin.id)
             }
         })
-        let set2 = new Set(data)
+        let set2 = new Set(data2)
         data2 = Array.from(set2)
         dispatch(makeMember({ member_array: data }, currentGroup.id, false))
         dispatch(makeAdmin({ admin_array: data2 }, currentGroup.id, true))
@@ -59,16 +59,16 @@ const MemberListCard = ({user, admin}) => {
 
     const makeAdminHandler = () => {
         let data = []
-        currentGroup.admins.map((user) =>
-            data.push(user.id)
+        currentGroup.admins.map((admin) =>
+            data.push(admin.id)
         )
         data.push(user.id)
         let set = new Set(data)
         data = Array.from(set)
         let data2 = []
-        currentGroup.members.map((user) => {
-            if (user.id != user.id) {
-                data2.push(user.id)
+        currentGroup.members.map((member) => {
+            if (member.id != user.id) {
+                data2.push(member.id)
             }
         })
         let set2 = new Set(data2)

@@ -2,7 +2,7 @@
     min-height: 50px;
     height: fit-content;
     width: calc(100% - 20px);
-    background-color: #40444B !important;
+    background-color: var(--msg-input-primary) !important;
     z-index: 100;
     margin-top: -20px;
     border-radius: 5px;
@@ -60,7 +60,7 @@
 
 .fa-plus-circle{
     font-size: 25px;
-    color: #DCDDDE;
+    color: var(--msg-input-icon-color);
 }
 
 .image-submit-button{
@@ -71,7 +71,7 @@
 
 .fa-file-upload{
     font-size: 25px;
-    color: #DCDDDE;  
+    color: var(--msg-input-icon-color);
 }
 
 .fa-file-upload:hover{
@@ -80,12 +80,12 @@
 
 .fa-kiss-wink-heart{
     font-size: 25px;
-    color: #DCDDDE;
+    color: var(--msg-input-icon-color);
 }
 
 .fa-location-arrow{
     font-size: 25px;
-    color: #DCDDDE;
+    color: var(--msg-input-icon-color);
 }
 
 .image-cover-field{
@@ -110,7 +110,7 @@
     width: 100% !important;
     border-bottom: none !important;
     outline: none !important;
-    color: white !important;
+    color: var(--msg-input-text-primary) !important;
     font-family: 'Fredoka One', cursive !important;
 }
 

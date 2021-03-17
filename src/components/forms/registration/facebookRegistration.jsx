@@ -35,7 +35,7 @@ const FacebookSocialAuth = () => {
     return (
         <div className="App">
             <FacebookLogin
-                appId="<put your facebook app id here>"
+                appId="183979513126396"
                 callback={responseFacebook}
                 render={renderProps => (
                     <Button

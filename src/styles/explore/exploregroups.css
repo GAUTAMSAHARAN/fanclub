@@ -70,7 +70,7 @@
     height: 320px !important;
     flex-grow: 3;
     min-width: 270px !important;
-    background-color: #202225 !important;
+    background-color: var(--explore-group-card-primary) !important;
     border: none !important;
     border-radius: 5px !important;
     box-shadow: none !important;
@@ -102,7 +102,7 @@
 .profile-icon{
     height: 45px;
     width: 45px;
-    border: 5px solid #202225;
+    border: 5px solid var(--explore-group-card-secondary);
     background-color: #dcddde;
     border-radius: 7px;
     margin-top: -35px;
